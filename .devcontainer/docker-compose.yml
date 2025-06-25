@@ -31,7 +31,7 @@ services:
       -c "
         cd /app/client
         pnpm install
-        pnpm run dev
+        pnpm run dev --host
       "
   api:
     container_name: discord_bot_api
