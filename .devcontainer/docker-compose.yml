@@ -1,0 +1,63 @@
+services:
+  editor:
+    container_name: discord_bot_editor
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ../:/app
+      - ~/.ssh:/home/developer/.ssh:ro
+    environment:
+      - DATABASE_URL=postgres://siteuser:postgresewvraer@db:5432/my_db
+    env_file:
+      - .env
+    command: |
+      bash -c '
+        tail -f /dev/null
+      '
+  client:
+    container_name: discord_bot_client
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ../:/app
+    working_dir: /app
+    ports:
+      - 5173:5173
+      - 24678:24678
+    entrypoint: sh
+    command: |
+      -c "
+        cd /app/client
+        pnpm install
+        pnpm run dev
+      "
+  api:
+    container_name: discord_bot_api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ../:/app
+    working_dir: /app
+    entrypoint: sh
+    command: |
+      -c "
+        cd /app
+        uv pip install -r requirements.txt
+        uvicorn main:app --reload --host 0.0.0.0 --port 8000
+      "
+  db:
+    container_name: discord_bot_db
+    image: timescale/timescaledb-ha:pg17
+    environment:
+      - POSTGRES_USER=siteuser
+      - POSTGRES_PASSWORD=postgresewvraer
+      - POSTGRES_DB=my_db
+    volumes:
+      # - db_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/1-schema.sql:ro
+
+volumes:
+  db_data:

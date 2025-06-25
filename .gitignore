@@ -9,3 +9,4 @@ __pycache__/
 *.sqlite3
 *.log
 .mypy_cache/
+.pnpm-store/
