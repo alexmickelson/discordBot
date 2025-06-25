@@ -17,11 +17,10 @@ RUN usermod -l developer ubuntu && \
 
 USER developer
 
-RUN fish
+# Install uv as developer and ensure it's on PATH
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    echo 'set -Ux PATH $HOME/.local/bin $PATH' | fish
 
 COPY ./config.fish /home/developer/.config/fish/config.fish
-
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/home/ubuntu/.local/bin:${PATH}"
 
 CMD ["tail", "-f", "/dev/null"]

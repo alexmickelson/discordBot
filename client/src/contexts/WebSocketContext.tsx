@@ -20,8 +20,8 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
   const [botStatus, setBotStatus] = useState<string | undefined>();
 
   useEffect(() => {
-    const websocket = new WebSocket(`ws://server.alexmickelson.guru:5678/`);
-    // const websocket = new WebSocket(`ws://${window.location.hostname}:5678/`);
+    // const websocket = new WebSocket(`ws://server.alexmickelson.guru:5678/`);
+    const websocket = new WebSocket(`ws://${window.location.hostname}:5678/`);
 
     setWs(websocket);
 
