@@ -1,0 +1,29 @@
+/* No more SCSS imports, use Tailwind for base styles */
+
+:root {
+  --slider-color: theme('colors.primary.DEFAULT', #0d6efd);
+  --slider-background-color: theme('colors.primary.100', #cfe2ff);
+}
+
+.slider {
+  @apply h-4 rounded bg-[var(--slider-background-color)] outline-none transition-opacity duration-200 opacity-50;
+}
+.slider:hover {
+  @apply opacity-100;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: var(--slider-color);
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: var(--slider-color);
+  cursor: pointer;
+}

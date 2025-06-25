@@ -8,10 +8,10 @@ export const PlaybackInfo: React.FC = () => {
   useInfoTask(ws);
 
   return (
-    <div className="row justify-content-end my-3">
-      <div className="col-auto">
-        <div className="border rounded-3 p-3 bg-secondary-subtle">
-          <h5 className="text-center">Status Messages</h5>
+    <div className="flex justify-end my-3">
+      <div className="inline-block">
+        <div className="border rounded-lg p-3 bg-gray-800">
+          <h5 className="text-center text-lg font-semibold mb-2">Status Messages</h5>
           {botStatus && <div>status: {botStatus}</div>}
           {error && <div>error: {error}</div>}
           {message && <div>message: {message}</div>}

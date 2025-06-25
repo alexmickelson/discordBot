@@ -1,5 +1,5 @@
 import { useWebSocket } from "../contexts/useWebSocket";
-import classes from "./SongQueue.module.scss";
+import classes from "./SongQueue.module.css";
 
 export const SongQueue = () => {
   const { songQueue, sendMessage } = useWebSocket();
@@ -8,21 +8,19 @@ export const SongQueue = () => {
     <div>
       {songQueue && (
         <div>
-          <ul className="list-group">
+          <ul className="divide-y divide-gray-200 bg-white rounded shadow">
             {songQueue.song_file_list.map((s, i) => {
               const isCurrent = i === songQueue.position;
               return (
                 <li
                   key={i}
-                  className={` list-group-item m-0 p-0 ${
-                    isCurrent && "bg-primary-subtle"
-                  } ${classes.songListItem}`}
+                  className={`p-0 m-0 ${isCurrent ? "bg-blue-100" : ""} ${classes.songListItem}`}
                 >
-                  <div className="row h-100">
-                    <div className="col-1 text-end my-auto">
+                  <div className="flex h-full items-center">
+                    <div className="flex-none text-right my-auto w-10">
                       {!isCurrent && (
                         <i
-                          className="bi bi-play-circle text-primary fs-3 "
+                          className="text-blue-500 text-3xl cursor-pointer"
                           role="button"
                           onClick={() => {
                             sendMessage({
@@ -34,19 +32,15 @@ export const SongQueue = () => {
                       )}
                       {isCurrent && (
                         <i
-                          className="bi bi-pause-circle text-primary fs-3 "
+                          className="text-blue-500 text-3xl cursor-pointer"
                           role="button"
                           onClick={() => {
                             // send pause message
-                            // sendMessage({
-                            //   action: "set_position",
-                            //   position: i,
-                            // });
                           }}
                         ></i>
                       )}
                     </div>
-                    <div className="col my-auto">
+                    <div className="flex-1 my-auto">
                       {s.filename
                         .substring(s.filename.lastIndexOf("/") + 1)
                         .replace(".mp3", "")}

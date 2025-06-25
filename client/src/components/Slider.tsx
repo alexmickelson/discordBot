@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import "./Slider.scss";
+import "./Slider.css";
 
 interface SliderProps {
   min: number;
@@ -28,7 +28,7 @@ export const Slider: FC<SliderProps> = ({ min, max, current, onChange }) => {
   }, [current, isDragging]);
 
   return (
-    <div className="w-100">
+    <div className="w-full">
       <input
         type="range"
         min={min}
@@ -37,7 +37,7 @@ export const Slider: FC<SliderProps> = ({ min, max, current, onChange }) => {
         onChange={handleChange}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        className="slider w-100"
+        className="slider w-full"
       />
     </div>
   );
