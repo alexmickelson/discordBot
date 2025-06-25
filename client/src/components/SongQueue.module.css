@@ -1,4 +1,5 @@
-/* Converted to Tailwind CSS module conventions */
+@import "tailwindcss";
+
 .songListItem {
   @apply h-12 hover:bg-gray-200 dark:hover:bg-gray-700;
 }
