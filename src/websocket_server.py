@@ -33,7 +33,8 @@ async def websocket_handler(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             data_json = json.loads(data)
-            response = handle_message(data_json)
+
+            response = await handle_message(data_json)
             await send_response_message(websocket, response)
     except WebSocketDisconnect:
         print("WebSocket disconnected")

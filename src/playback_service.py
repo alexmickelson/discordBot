@@ -1,3 +1,4 @@
+import asyncio
 import time
 import discord
 from src.models import BotResponse, BotStatus, MessageType, PlaybackInformation
@@ -87,7 +88,7 @@ def get_playback_info():
         return None
 
 
-def handle_message(data) -> BotResponse:
+async def handle_message(data) -> BotResponse:
     if "action" not in data:
         response = BotResponse(
             message_type=MessageType.ERROR,
@@ -163,7 +164,7 @@ def handle_message(data) -> BotResponse:
     elif data["action"] == "get_all_songs":
         all_songs_list = get_all_songs()
         print("all_songs_list", all_songs_list)
-        
+
         return BotResponse(
             message_type=MessageType.ALL_SONGS_LIST,
             status=get_status(),

@@ -5,7 +5,7 @@ import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 import uvicorn
-from src.discord_bot import bot
+from src.discord_bot import bot, connect_to_channel_by_name, is_bot_connected
 from src.websocket_server import websocket_handler
 
 load_dotenv()
@@ -23,4 +23,6 @@ app = FastAPI(lifespan=lifespan)
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    if not is_bot_connected():
+        await connect_to_channel_by_name("Absolute Sophistication")
     await websocket_handler(websocket)
