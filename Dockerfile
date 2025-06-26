@@ -16,7 +16,7 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /app
 
-COPY api ./
+COPY ./api/ ./
 
 WORKDIR /app/api
 
