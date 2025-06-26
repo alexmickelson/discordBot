@@ -16,14 +16,12 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /app
 
-COPY ./api/ ./
-
-WORKDIR /app/api
+COPY api ./
 
 RUN uv sync
 
 RUN mkdir client-dist
-COPY --from=build-stage /app/dist /app/api/client-dist
+COPY --from=build-stage /app/dist /app/client-dist
 
 
 ENTRYPOINT [ "uv", "run", "fastapi", "run", "main.py", "--port", "5677" ]
