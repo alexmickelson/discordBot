@@ -9,8 +9,6 @@ services:
       - ~/.ssh:/home/developer/.ssh:ro
     environment:
       - DATABASE_URL=postgres://siteuser:postgresewvraer@db:5432/my_db
-    env_file:
-      - .env
     command: |
       bash -c '
         tail -f /dev/null

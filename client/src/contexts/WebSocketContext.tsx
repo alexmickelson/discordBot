@@ -1,9 +1,4 @@
-import {
-  FC,
-  ReactNode,
-  useEffect,
-  useState,
-} from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { BotResponse, PlaybackInfoData, SongQueue } from "../models";
 import { WebSocketContext } from "./useWebSocket";
 
@@ -31,21 +26,25 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
     };
 
     websocket.onmessage = (event) => {
-      // console.log(event.data);
+      // console.log("got message", event.data);
       const response: BotResponse = JSON.parse(event.data);
       setBotStatus(response.status);
       if (response.message_type === "ERROR") {
         setError(response.error ?? "");
-      } else if (response.message_type === "MESSAGE") {
+      } 
+
+      if (response.message_type === "MESSAGE") {
         setMessage(response.message ?? "");
-      } else if (response.message_type === "PLAYBACK_INFORMATION") {
+      }
+
+      if (response.message_type === "PLAYBACK_INFORMATION") {
         setPlaybackInfo(response.playback_information);
         setSongQueue(response.song_queue);
       }
     };
 
     websocket.onerror = (event: Event) => {
-      console.log(event);
+      console.log("error event", event);
       setError("WebSocket error occurred.");
     };
 
