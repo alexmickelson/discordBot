@@ -3,7 +3,7 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY client/package.json client/package-lock.json ./
+COPY client/package.json client/pnpm-lock.yaml ./
 RUN pnpm install
 
 COPY client/ ./
