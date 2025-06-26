@@ -1,21 +1,33 @@
+import os
 from typing import List
 from pydantic import BaseModel
 import yt_dlp
 import logging
-from src.models import SongItem, SongQueueStatus
+import json
+import glob
+from src.models import SongItem, SongQueueStatus, SongMetadata
 
+DATA_PATH = "/tmp/songs"
 
 song_file_list: List[SongItem] = []
 current_position = -1
 current_song_start_time = 0
 
 
+def __handle_metadata(filename: str, song_duration: int, url: str):
+    from src.models import SongMetadata
+
+    json_path = filename.rsplit(".", 1)[0] + ".json"
+    song_metadata = SongMetadata(filename=filename, duration=song_duration, url=url)
+    with open(json_path, "w") as f:
+        f.write(song_metadata.model_dump_json())
+
 
 def __download_url(url: str):
     print("in download url")
     ydl_opts = {
         "format": "bestaudio/best",
-        "outtmpl": "./songs/%(title)s.%(ext)s",
+        "outtmpl": f"{DATA_PATH}/%(title)s.%(ext)s",
         "noplaylist": True,
         "quiet": True,
         "nooverwrites": False,
@@ -33,10 +45,24 @@ def __download_url(url: str):
             filename = ydl.prepare_filename(res).rsplit(".", 1)[0] + ".mp3"
             song_duration = res["duration"]
             print(f"got file {filename} {song_duration}")
+            __handle_metadata(filename, song_duration, url)
             return filename, song_duration
     except Exception as e:
         print(f"Error in download: {e}")
         raise
+
+
+def get_all_songs():
+    all_songs_list = []
+    for json_path in glob.glob(f"{DATA_PATH}/*.json"):
+        try:
+            with open(json_path, "r") as f:
+                data = f.read()
+                song_metadata = SongMetadata.model_validate_json(data)
+                all_songs_list.append(song_metadata)
+        except Exception as e:
+            print(f"Failed to load {json_path}: {e}")
+    return all_songs_list
 
 
 def add_to_queue(url: str):
@@ -44,6 +70,30 @@ def add_to_queue(url: str):
     filename, duration = __download_url(url)
     song = SongItem(filename=filename, duration=duration)
     song_file_list.append(song)
+
+
+def add_existing_song_to_queue(filename: str):
+    """
+    Add a song to the queue by its filename (must be present in DATA_PATH and have a .json metadata file).
+    """
+    json_path = filename.rsplit(".", 1)[0] + ".json"
+    if not os.path.exists(json_path):
+        print(f"Metadata file {json_path} not found for song {filename}")
+        return False
+    try:
+        with open(json_path, "r") as f:
+            data = f.read()
+            from src.models import SongMetadata
+
+            song_metadata = SongMetadata.model_validate_json(data)
+            song = SongItem(
+                filename=song_metadata.filename, duration=song_metadata.duration
+            )
+            song_file_list.append(song)
+            return True
+    except Exception as e:
+        print(f"Failed to add song from metadata {json_path}: {e}")
+        return False
 
 
 def has_current_song():

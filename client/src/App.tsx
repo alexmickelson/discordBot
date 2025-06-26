@@ -1,3 +1,4 @@
+import { AllSongs } from "./components/AllSongs";
 import { CurrentSong } from "./components/CurrentSong";
 import { PlaybackInfo } from "./components/PlaybackInfo";
 import { SongQueue } from "./components/SongQueue";
@@ -9,6 +10,8 @@ export const App = () => {
       <CurrentSong />
       <SongQueue />
       <PlaybackInfo />
+      <hr />
+      <AllSongs />
     </div>
   );
 };

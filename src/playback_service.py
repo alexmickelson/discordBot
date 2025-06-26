@@ -3,6 +3,7 @@ import discord
 from src.models import BotResponse, BotStatus, MessageType, PlaybackInformation
 from src.my_voice_client import get_voice_client
 from src.song_queue import (
+    get_all_songs,
     get_current_metadata,
     get_queue_status,
     handle_song_end,
@@ -155,6 +156,18 @@ def handle_message(data) -> BotResponse:
             song_queue=get_queue_status(),
         )
         return response
+
+    elif data["action"] == "get_all_songs":
+        all_songs_list = get_all_songs()
+        return BotResponse(
+            message_type=MessageType.ALL_SONGS_LIST,
+            status=get_status(),
+            message=None,
+            playback_information=None,
+            song_queue=None,
+            error=None,
+            all_songs_list=all_songs_list,
+        )
 
 
 def get_filename_and_starttime():

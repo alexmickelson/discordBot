@@ -12,11 +12,18 @@ class MessageType(str, Enum):
     PLAYBACK_INFORMATION = "PLAYBACK_INFORMATION"
     ERROR = "ERROR"
     MESSAGE = "MESSAGE"
+    ALL_SONGS_LIST = "ALL_SONGS_LIST"
 
 
 class SongItem(BaseModel):
     filename: str
     duration: int
+
+
+class SongMetadata(BaseModel):
+    filename: str
+    duration: int
+    url: str
 
 
 class SongQueueStatus(BaseModel):
@@ -37,3 +44,4 @@ class BotResponse(BaseModel):
     message: Optional[str] = None
     playback_information: Optional[PlaybackInformation] = None
     song_queue: Optional[SongQueueStatus] = None
+    all_songs_list: Optional[List[SongMetadata]] = None

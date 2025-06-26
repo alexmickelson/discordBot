@@ -17,11 +17,18 @@ export interface SongQueue {
   position: number;
 }
 
+export interface SongMetadata {
+  filename: string;
+  duration: number;
+  url: string;
+}
+
 export interface BotResponse {
-  message_type: "PLAYBACK_INFORMATION" | "ERROR" | "MESSAGE";
+  message_type: "PLAYBACK_INFORMATION" | "ERROR" | "MESSAGE" | "ALL_SONGS_LIST";
   status: BotStatus;
   error?: string;
   message?: string;
   playback_information?: PlaybackInfoData;
   song_queue?: SongQueue;
+  all_songs_list?: SongMetadata[];
 }

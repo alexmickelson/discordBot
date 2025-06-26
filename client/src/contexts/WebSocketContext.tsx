@@ -1,5 +1,10 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import { BotResponse, PlaybackInfoData, SongQueue } from "../models";
+import {
+  BotResponse,
+  PlaybackInfoData,
+  SongMetadata,
+  SongQueue,
+} from "../models";
 import { WebSocketContext } from "./useWebSocket";
 
 export const WebSocketProvider: FC<{ children: ReactNode }> = ({
@@ -13,6 +18,7 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState("");
   const [botStatus, setBotStatus] = useState<string | undefined>();
+  const [allSongsList, setAllSongsList] = useState<SongMetadata[]>([]);
 
   useEffect(() => {
     // const websocket = new WebSocket(`ws://server.alexmickelson.guru:5678/`);
@@ -23,6 +29,7 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
     websocket.onopen = () => {
       console.log("websocket connected");
       websocket.send(JSON.stringify({ action: "get_playback_info" }));
+      websocket.send(JSON.stringify({ action: "get_all_songs" }));
     };
 
     websocket.onmessage = (event) => {
@@ -41,6 +48,15 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
       if (response.message_type === "PLAYBACK_INFORMATION") {
         setPlaybackInfo(response.playback_information);
         setSongQueue(response.song_queue);
+      }
+
+      if (response.message_type === "ALL_SONGS_LIST") {
+        if (!response.all_songs_list) {
+          console.error("Received empty all_songs_list");
+          setAllSongsList([]);
+        } else {
+          setAllSongsList(response.all_songs_list);
+        }
       }
     };
 
@@ -75,6 +91,7 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
         playbackInfo,
         songQueue,
         sendMessage,
+        allSongsList,
       }}
     >
       {children}
