@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
-/* :root {
-  --slider-color: theme('colors.primary.DEFAULT', #0d6efd);
-  --slider-background-color: theme('colors.primary.100', #cfe2ff);
-} */
-
 .slider {
-  @apply h-4 rounded outline-none transition-opacity duration-200 opacity-50;
-
-  @apply bg-blue-700;
+  @apply h-4 rounded outline-none transition-opacity duration-200 opacity-60 bg-violet-900 shadow-inner;
 }
 .slider:hover {
-  @apply opacity-100;
+  @apply opacity-100 bg-violet-800;
 }
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -19,15 +12,19 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 9999px;
-  /* background: var(--slider-color); */
-  @apply bg-blue-700;
+  @apply bg-violet-700 border-4 border-violet-900 shadow-lg transition-colors duration-150;
   cursor: pointer;
+}
+.slider:active::-webkit-slider-thumb {
+  @apply bg-violet-500 border-violet-800;
 }
 .slider::-moz-range-thumb {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 9999px;
-  /* background: var(--slider-color); */
+  @apply bg-violet-500 border-4 border-violet-900 shadow-lg transition-colors duration-150;
   cursor: pointer;
-  @apply bg-blue-700;
+}
+.slider:active::-moz-range-thumb {
+  @apply bg-violet-500 border-violet-800;
 }

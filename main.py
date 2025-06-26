@@ -8,6 +8,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from src.discord_bot import bot, connect_to_channel_by_name, is_bot_connected
 from src.models import BotResponse
 from src.music_message_controls import MusicMessageControls
+from fastapi.staticfiles import StaticFiles
 
 load_dotenv()
 
@@ -64,3 +65,6 @@ async def websocket_endpoint(websocket: WebSocket):
     if not is_bot_connected():
         await connect_to_channel_by_name("Absolute Sophistication")
     await websocket_handler(websocket)
+
+
+app.mount("/", StaticFiles(directory="/app/client-dist", html=True), name="client-dist")

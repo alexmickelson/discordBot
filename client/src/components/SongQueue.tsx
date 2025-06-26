@@ -1,38 +1,42 @@
 import { useWebSocket } from "../contexts/useWebSocket";
-import classes from "./SongQueue.module.css";
 import { SongIcon } from "./SongIcon";
 
 export const SongQueue = () => {
   const { songQueue } = useWebSocket();
 
   return (
-    <div>
+    <div className="bg-violet-950/50 rounded-xl shadow-lg p-4 max-w-xl mx-auto mt-6">
       {songQueue && (
         <div>
-          <ul className="border rounded shadow">
+          <div className="">
             {songQueue.song_file_list.map((s, i) => {
               const isCurrent = i === songQueue.position;
               return (
-                <li
+                <div
                   key={i}
-                  className={`p-0 m-0 ${isCurrent ? "bg-blue-950" : ""} ${
-                    classes.songListItem
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-150 mb-2 last:mb-0 cursor-pointer hover:bg-violet-900/80 ${
+                    isCurrent
+                      ? "bg-gradient-to-r from-violet-800 to-violet-950 shadow-md scale-[1.02]"
+                      : "bg-violet-950/60"
                   }`}
+                  style={{ minHeight: 56 }}
                 >
-                  <div className="flex h-full items-center">
-                    <div className="flex-none text-right my-auto w-10">
-                      <SongIcon index={i} />
-                    </div>
-                    <div className="flex-1 my-auto">
-                      {s.filename
-                        .substring(s.filename.lastIndexOf("/") + 1)
-                        .replace(".mp3", "")}
-                    </div>
+                  <div className="flex-none w-10 text-right">
+                    <SongIcon index={i} />
                   </div>
-                </li>
+                  <div
+                    className={`flex-1 font-medium truncate ${
+                      isCurrent ? "text-violet-100" : "text-violet-300"
+                    }`}
+                  >
+                    {s.filename
+                      .substring(s.filename.lastIndexOf("/") + 1)
+                      .replace(".mp3", "")}
+                  </div>
+                </div>
               );
             })}
-          </ul>
+          </div>
         </div>
       )}
     </div>

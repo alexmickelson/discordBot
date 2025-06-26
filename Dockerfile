@@ -17,8 +17,8 @@ COPY src src
 COPY main.py main.py
 RUN mkdir songs
 
-RUN mkdir client
-COPY --from=build-stage /app/dist /client
+RUN mkdir client-dist
+COPY --from=build-stage /app/dist /client-dist
 
 ENTRYPOINT [ "fastapi", "run", "main.py", "--port", "5677" ]
 
