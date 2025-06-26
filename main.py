@@ -10,6 +10,7 @@ import asyncio
 import websockets
 import json
 from src.models import BotResponse
+from fastapi.middleware.cors import CORSMiddleware
 from src.my_voice_client import get_voice_client, set_voice_client
 from src.playback_service import (
     handle_message,
@@ -20,7 +21,7 @@ from src.song_queue import add_to_queue
 
 load_dotenv()
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 
 
@@ -98,18 +99,37 @@ async def start_websocket_server():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Start WebSocket and Discord bot in managed background tasks
-    websocket_task = asyncio.create_task(start_websocket_server())
+    # websocket_task = asyncio.create_task(start_websocket_server())
     bot_task = asyncio.create_task(bot.start(os.getenv("DISCORD_SECRET")))
 
-    app.state.websocket_task = websocket_task
+    # app.state.websocket_task = websocket_task
     app.state.bot_task = bot_task
 
     yield
 
-    app.state.websocket_task.cancel()
+    # app.state.websocket_task.cancel()
     app.state.bot_task.cancel()
-    await asyncio.gather(app.state.websocket_task, app.state.bot_task, return_exceptions=True)
+    # await asyncio.gather(app.state.websocket_task, app.state.bot_task, return_exceptions=True)
+    await asyncio.gather(app.state.bot_task, return_exceptions=True)
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            pass
+            # data = await websocket.receive_text()
+            # await websocket.send_text(f"Message received: {data}")
+    except WebSocketDisconnect:
+        print("Client disconnected")
+
 
 app.mount("/", StaticFiles(directory="./client", html=True), name="static")

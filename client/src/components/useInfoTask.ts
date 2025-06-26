@@ -8,8 +8,12 @@ const getPlaybackInfo = (ws: WebSocket) => {
 export const useInfoTask = (websocket?: WebSocket) => {
   useEffect(() => {
     const interval = setInterval(() => {
-      if(websocket)
+      if (
+        websocket &&
+        websocket.readyState === WebSocket.OPEN
+      ) {
         getPlaybackInfo(websocket);
+      }
     }, updateInterval);
 
     return () => clearInterval(interval);

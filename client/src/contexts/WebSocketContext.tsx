@@ -21,7 +21,7 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     // const websocket = new WebSocket(`ws://server.alexmickelson.guru:5678/`);
-    const websocket = new WebSocket(`ws://${window.location.hostname}:5678/`);
+    const websocket = new WebSocket(`ws://${window.location.hostname}:8080/ws`);
 
     setWs(websocket);
 
@@ -31,6 +31,7 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
     };
 
     websocket.onmessage = (event) => {
+      // console.log(event.data);
       const response: BotResponse = JSON.parse(event.data);
       setBotStatus(response.status);
       if (response.message_type === "ERROR") {

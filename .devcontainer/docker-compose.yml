@@ -25,7 +25,6 @@ services:
     working_dir: /app
     ports:
       - 5173:5173
-      - 24678:24678
     entrypoint: sh
     command: |
       -c "
@@ -42,6 +41,7 @@ services:
       - ../:/app
     working_dir: /app
     ports:
+      - 8080:8080
       - 5678:5678
     entrypoint: sh
     command: |
@@ -49,7 +49,7 @@ services:
         cd /app
         export PATH=/home/developer/.local/bin:$PATH
         uv sync
-        uv run fastapi dev src/main.py --host 0.0.0.0 --port 5678
+        uv run fastapi dev main.py --host 0.0.0.0 --port 8080
       "
   db:
     container_name: discord_bot_db
