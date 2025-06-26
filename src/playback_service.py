@@ -92,7 +92,7 @@ def handle_message(data) -> BotResponse:
         )
         return response
 
-    if data["action"] == "set_playback":
+    if data["action"] == "seek_to_position":
         if "position" not in data:
             response = BotResponse(
                 message_type=MessageType.ERROR,
@@ -116,7 +116,8 @@ def handle_message(data) -> BotResponse:
                 error="unable to change position",
             )
             return response
-    elif data["action"] == "set_position":
+
+    elif data["action"] == "play_song_by_index":
         if "position" not in data:
             response = BotResponse(
                 message_type=MessageType.ERROR,

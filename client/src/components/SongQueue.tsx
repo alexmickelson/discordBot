@@ -8,23 +8,25 @@ export const SongQueue = () => {
     <div>
       {songQueue && (
         <div>
-          <ul className="divide-y divide-gray-200 bg-white rounded shadow">
+          <ul className="border rounded shadow">
             {songQueue.song_file_list.map((s, i) => {
               const isCurrent = i === songQueue.position;
               return (
                 <li
                   key={i}
-                  className={`p-0 m-0 ${isCurrent ? "bg-blue-100" : ""} ${classes.songListItem}`}
+                  className={`p-0 m-0 ${isCurrent ? "bg-blue-950" : ""} ${
+                    classes.songListItem
+                  }`}
                 >
                   <div className="flex h-full items-center">
                     <div className="flex-none text-right my-auto w-10">
                       {!isCurrent && (
                         <i
-                          className="text-blue-500 text-3xl cursor-pointer"
+                          className="fas fa-play text-blue-500 text-3xl cursor-pointer"
                           role="button"
                           onClick={() => {
                             sendMessage({
-                              action: "set_position",
+                              action: "play_song_by_index",
                               position: i,
                             });
                           }}
@@ -32,7 +34,7 @@ export const SongQueue = () => {
                       )}
                       {isCurrent && (
                         <i
-                          className="text-blue-500 text-3xl cursor-pointer"
+                          className="fas fa-pause text-blue-500 text-3xl cursor-pointer"
                           role="button"
                           onClick={() => {
                             // send pause message

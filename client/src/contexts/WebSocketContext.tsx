@@ -26,12 +26,13 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
     };
 
     websocket.onmessage = (event) => {
-      // console.log("got message", event.data);
       const response: BotResponse = JSON.parse(event.data);
       setBotStatus(response.status);
       if (response.message_type === "ERROR") {
         setError(response.error ?? "");
-      } 
+      } else {
+        setError("");
+      }
 
       if (response.message_type === "MESSAGE") {
         setMessage(response.message ?? "");
