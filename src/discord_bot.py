@@ -59,7 +59,7 @@ async def pause(ctx: commands.Context):
 async def connect_to_channel_by_name(channel_name: str):
     """
     Connect the bot to a voice channel by name in any available guild.
-    This is for use outside of a Discord command context.
+    Only connect if not already connected to a voice channel in that guild.
     """
     for guild in bot.guilds:
         channel = discord.utils.get(guild.voice_channels, name=channel_name)
@@ -71,9 +71,12 @@ async def connect_to_channel_by_name(channel_name: str):
     print(f"Channel '{channel_name}' not found in any guild.")
     return None
 
+
 def is_bot_connected():
     """
-    Returns True if the bot is currently connected to a voice channel, False otherwise.
+    Returns True if the bot is currently connected to a voice channel in any guild, False otherwise.
     """
-    voice_client = get_voice_client()
-    return voice_client is not None and voice_client.is_connected()
+    for guild in bot.guilds:
+        if guild.voice_client and guild.voice_client.is_connected():
+            return True
+    return False

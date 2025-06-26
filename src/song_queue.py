@@ -6,6 +6,7 @@ import logging
 import json
 import glob
 from src.models import SongItem, SongQueueStatus, SongMetadata
+from src.my_voice_client import get_voice_client
 
 DATA_PATH = "/tmp/songs"
 
@@ -145,7 +146,14 @@ def move_to_last_song_in_queue():
 
 def get_queue_status():
     global current_song_start_time, song_file_list, current_position
-    return SongQueueStatus(song_file_list=song_file_list, position=current_position)
+
+    voice_client = get_voice_client()
+    is_paused = False
+    if voice_client is not None:
+        is_paused = not voice_client.is_playing() and voice_client.is_connected()
+    return SongQueueStatus(
+        song_file_list=song_file_list, position=current_position, is_paused=is_paused
+    )
 
 
 def set_queue_position(position: int):

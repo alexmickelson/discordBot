@@ -15,6 +15,7 @@ export interface SongQueue {
     duration: number;
   }[];
   position: number;
+  is_paused: boolean;
 }
 
 export interface SongMetadata {

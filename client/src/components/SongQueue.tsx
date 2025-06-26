@@ -37,7 +37,9 @@ export const SongQueue = () => {
                           className="fas fa-pause text-blue-500 text-3xl cursor-pointer"
                           role="button"
                           onClick={() => {
-                            // send pause message
+                            sendMessage({
+                              action: "pause_song",
+                            });
                           }}
                         ></i>
                       )}
