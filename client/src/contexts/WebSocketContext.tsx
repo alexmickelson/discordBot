@@ -22,7 +22,11 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     // const websocket = new WebSocket(`ws://server.alexmickelson.guru:5678/`);
-    const websocket = new WebSocket(`ws://${window.location.hostname}:8080/ws`);
+    const websocket = new WebSocket(
+      `${window.location.protocol === "https:" ? "wss" : "ws"}://${
+        window.location.host
+      }/ws`
+    );
 
     setWs(websocket);
 
