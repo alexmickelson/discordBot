@@ -24,7 +24,12 @@ export interface SongMetadata {
 }
 
 export interface BotResponse {
-  message_type: "PLAYBACK_INFORMATION" | "ERROR" | "MESSAGE" | "ALL_SONGS_LIST";
+  message_type:
+    | "PLAYBACK_INFORMATION"
+    | "ERROR"
+    | "MESSAGE"
+    | "ALL_SONGS_LIST"
+    | "ADD_SONG_TO_QUEUE";
   status: BotStatus;
   error?: string;
   message?: string;

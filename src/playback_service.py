@@ -3,6 +3,7 @@ import discord
 from src.models import BotResponse, BotStatus, MessageType, PlaybackInformation
 from src.my_voice_client import get_voice_client
 from src.song_queue import (
+    add_existing_song_to_queue,
     get_all_songs,
     get_current_metadata,
     get_queue_status,
@@ -141,24 +142,28 @@ def handle_message(data) -> BotResponse:
         return response
 
     elif data["action"] == "get_playback_info":
+        status = get_queue_status()
         if not has_current_song():
             return BotResponse(
                 message_type=MessageType.PLAYBACK_INFORMATION,
                 status=BotStatus.IDLE,
                 playback_information=None,
-                song_queue=get_queue_status(),
+                song_queue=status,
             )
-        info = get_playback_info()
-        response = BotResponse(
-            message_type=MessageType.PLAYBACK_INFORMATION,
-            status=BotStatus.PLAYING if info else BotStatus.IDLE,
-            playback_information=info,
-            song_queue=get_queue_status(),
-        )
-        return response
+        else:
+            info = get_playback_info()
+            response = BotResponse(
+                message_type=MessageType.PLAYBACK_INFORMATION,
+                status=BotStatus.PLAYING if info else BotStatus.IDLE,
+                playback_information=info,
+                song_queue=status,
+            )
+            return response
 
     elif data["action"] == "get_all_songs":
         all_songs_list = get_all_songs()
+        print("all_songs_list", all_songs_list)
+        
         return BotResponse(
             message_type=MessageType.ALL_SONGS_LIST,
             status=get_status(),
@@ -168,6 +173,30 @@ def handle_message(data) -> BotResponse:
             error=None,
             all_songs_list=all_songs_list,
         )
+
+    elif data["action"] == "add_song_to_queue":
+        if "filename" not in data:
+            return BotResponse(
+                message_type=MessageType.ERROR,
+                status=get_status(),
+                error="Invalid request, filename is required",
+            )
+
+        success = add_existing_song_to_queue(data["filename"])
+        handle_new_song_on_queue()
+        if success:
+            return BotResponse(
+                message_type=MessageType.ADD_SONG_TO_QUEUE,
+                status=get_status(),
+                message="Song added to queue",
+                song_queue=get_queue_status(),
+            )
+        else:
+            return BotResponse(
+                message_type=MessageType.ERROR,
+                status=get_status(),
+                error="Failed to add song to queue",
+            )
 
 
 def get_filename_and_starttime():

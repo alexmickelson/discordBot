@@ -28,8 +28,7 @@ async def play(ctx: commands.Context, url: str):
 
     if ctx.voice_client is None:
         set_voice_client(await channel.connect())
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(None, add_to_queue, url)
+    add_to_queue(url)
     print(f"added {url} to queue")
 
     handle_new_song_on_queue()

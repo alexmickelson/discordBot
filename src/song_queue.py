@@ -55,6 +55,7 @@ def __download_url(url: str):
 def get_all_songs():
     all_songs_list = []
     for json_path in glob.glob(f"{DATA_PATH}/*.json"):
+        print(f"checking {json_path}")
         try:
             with open(json_path, "r") as f:
                 data = f.read()
@@ -83,7 +84,6 @@ def add_existing_song_to_queue(filename: str):
     try:
         with open(json_path, "r") as f:
             data = f.read()
-            from src.models import SongMetadata
 
             song_metadata = SongMetadata.model_validate_json(data)
             song = SongItem(

@@ -13,6 +13,7 @@ class MessageType(str, Enum):
     ERROR = "ERROR"
     MESSAGE = "MESSAGE"
     ALL_SONGS_LIST = "ALL_SONGS_LIST"
+    ADD_SONG_TO_QUEUE = "ADD_SONG_TO_QUEUE"  # new action
 
 
 class SongItem(BaseModel):
