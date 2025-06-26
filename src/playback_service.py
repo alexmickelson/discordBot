@@ -121,3 +121,17 @@ def unpause_song():
         voice_client.resume()
         set_current_song_start_time(time.time() - pause_offset)
         pause_offset = -1
+    else:
+        # If not playing, try to start the current song from the last stored timestamp
+        if has_current_song():
+            fileName, duration, start_time = get_current_metadata()
+            seek_time = pause_offset if pause_offset > 0 else (time.time() - start_time)
+            audio = discord.FFmpegPCMAudio(
+                source=fileName, before_options=f"-ss {seek_time}"
+            )
+            voice_client.play(audio, after=after_playing)
+            set_current_song_start_time(time.time() - seek_time)
+            pause_offset = -1
+            print(f"Resumed playback from {seek_time}s for {fileName}")
+        else:
+            print("cannot unpause song, no song playing")

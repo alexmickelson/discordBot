@@ -6,6 +6,8 @@ from src.playback_service import (
     get_status,
     handle_new_song_on_queue,
     play_current_song,
+    pause_song,  # add import
+    unpause_song,  # add import
 )
 from src.song_queue import (
     add_existing_song_to_queue,
@@ -57,7 +59,7 @@ class MusicMessageControls:
             song_queue=get_queue_status(),
         )
 
-    def get_playback_info(self):
+    def get_playback_info(self, data):
         status = get_queue_status()
         if not has_current_song():
             return BotResponse(
@@ -75,7 +77,7 @@ class MusicMessageControls:
                 song_queue=status,
             )
 
-    def get_all_songs(self):
+    def get_all_songs(self, data):
         all_songs_list = get_all_songs()
         print("all_songs_list", all_songs_list)
         return BotResponse(
@@ -112,6 +114,24 @@ class MusicMessageControls:
                 error="Failed to add song to queue",
             )
 
+    def pause_song(self, data):
+        pause_song()
+        return BotResponse(
+            message_type=MessageType.PLAYBACK_INFORMATION,
+            status=get_status(),
+            playback_information=get_playback_info(),
+            song_queue=get_queue_status(),
+        )
+
+    def unpause_song(self, data):
+        unpause_song()
+        return BotResponse(
+            message_type=MessageType.PLAYBACK_INFORMATION,
+            status=get_status(),
+            playback_information=get_playback_info(),
+            song_queue=get_queue_status(),
+        )
+
     async def ws_message(self, data):
         if "action" not in data:
             return BotResponse(
@@ -119,21 +139,14 @@ class MusicMessageControls:
                 status=get_status(),
                 error="Invalid request, action is required",
             )
-        action = data["action"]
-        
-        if action == "seek_to_position":
-            return self.seek_to_position(data)
-        elif action == "play_song_by_index":
-            return self.play_song_by_index(data)
-        elif action == "get_playback_info":
-            return self.get_playback_info()
-        elif action == "get_all_songs":
-            return self.get_all_songs()
-        elif action == "add_song_to_queue":
-            return self.add_song_to_queue(data)
+
+        # Dynamically call method based on action
+        method = getattr(self, data["action"], None)
+        if callable(method):
+            return method(data)
         else:
             return BotResponse(
                 message_type=MessageType.ERROR,
                 status=get_status(),
-                error=f"Unknown action: {action}",
+                error=f"Unknown action: {data["action"]}",
             )

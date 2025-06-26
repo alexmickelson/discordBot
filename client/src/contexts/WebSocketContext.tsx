@@ -37,8 +37,6 @@ export const WebSocketProvider: FC<{ children: ReactNode }> = ({
       setBotStatus(response.status);
       if (response.message_type === "ERROR") {
         setError(response.error ?? "");
-      } else {
-        setError("");
       }
 
       if (response.message_type === "MESSAGE") {

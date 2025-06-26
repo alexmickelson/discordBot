@@ -1,8 +1,9 @@
 import { useWebSocket } from "../contexts/useWebSocket";
 import classes from "./SongQueue.module.css";
+import { SongIcon } from "./SongIcon";
 
 export const SongQueue = () => {
-  const { songQueue, sendMessage } = useWebSocket();
+  const { songQueue } = useWebSocket();
 
   return (
     <div>
@@ -20,29 +21,7 @@ export const SongQueue = () => {
                 >
                   <div className="flex h-full items-center">
                     <div className="flex-none text-right my-auto w-10">
-                      {!isCurrent && (
-                        <i
-                          className="fas fa-play text-blue-500 text-3xl cursor-pointer"
-                          role="button"
-                          onClick={() => {
-                            sendMessage({
-                              action: "play_song_by_index",
-                              position: i,
-                            });
-                          }}
-                        ></i>
-                      )}
-                      {isCurrent && (
-                        <i
-                          className="fas fa-pause text-blue-500 text-3xl cursor-pointer"
-                          role="button"
-                          onClick={() => {
-                            sendMessage({
-                              action: "pause_song",
-                            });
-                          }}
-                        ></i>
-                      )}
+                      <SongIcon index={i} />
                     </div>
                     <div className="flex-1 my-auto">
                       {s.filename

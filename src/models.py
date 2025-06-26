@@ -30,6 +30,7 @@ class SongMetadata(BaseModel):
 class SongQueueStatus(BaseModel):
     song_file_list: list[SongItem]
     position: int
+    is_paused: bool
 
 
 class PlaybackInformation(BaseModel):
