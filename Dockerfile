@@ -20,5 +20,9 @@ RUN mkdir songs
 RUN mkdir client-dist
 COPY --from=build-stage /app/dist /client-dist
 
-ENTRYPOINT [ "fastapi", "run", "main.py", "--port", "5677" ]
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
+
+ENV PATH="/root/.local/bin:${PATH}"
+
+ENTRYPOINT [ "uv", "run", "fastapi", "run", "main.py", "--port", "5677" ]
 
