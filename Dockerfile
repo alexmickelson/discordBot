@@ -11,19 +11,20 @@ RUN pnpm run build
 
 FROM python:3.12
 RUN apt-get update && apt-get install -y ffmpeg
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
+ENV PATH="/root/.local/bin:${PATH}"
 
-COPY src src
-COPY main.py main.py
-RUN mkdir songs
+WORKDIR /app
+
+COPY api ./
+
+WORKDIR /app/api
+
+RUN uv sync
 
 RUN mkdir client-dist
-COPY --from=build-stage /app/dist /client-dist
+COPY --from=build-stage /app/dist /app/api/client-dist
 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
-
-ENV PATH="/root/.local/bin:${PATH}"
 
 ENTRYPOINT [ "uv", "run", "fastapi", "run", "main.py", "--port", "5677" ]
 
