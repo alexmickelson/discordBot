@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 import yt_dlp
+import logging
 from src.models import SongItem, SongQueueStatus
 
 
@@ -9,24 +10,33 @@ current_position = -1
 current_song_start_time = 0
 
 
+
 def __download_url(url: str):
-    fileName = ""
-
-    def yt_dlp_monitor(d):
-        nonlocal fileName
-        final_filename = d.get("info_dict").get("_filename")
-        fileName = final_filename
-
+    print("in download url")
     ydl_opts = {
-        "extract_audio": True,
         "format": "bestaudio/best",
-        "outtmpl": "./songs/%(title)s.mp3",
-        "progress_hooks": [yt_dlp_monitor],
+        "outtmpl": "./songs/%(title)s.%(ext)s",
+        "noplaylist": True,
+        "quiet": True,
+        "nooverwrites": False,
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+            }
+        ],
     }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        res = ydl.extract_info(url)
-        song_duration = res["duration"]
-    return fileName, song_duration
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            res = ydl.extract_info(url)
+            filename = ydl.prepare_filename(res).rsplit(".", 1)[0] + ".mp3"
+            song_duration = res["duration"]
+            print(f"got file {filename} {song_duration}")
+            return filename, song_duration
+    except Exception as e:
+        print(f"Error in download: {e}")
+        raise
 
 
 def add_to_queue(url: str):

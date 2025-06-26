@@ -2,6 +2,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y \
     git fish \
+    ffmpeg \
     nodejs npm curl \
     python3 python3-pip \
     && npm install -g n \

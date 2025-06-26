@@ -59,6 +59,8 @@ def play_current_song():
         get_voice_client().play(
             discord.FFmpegPCMAudio(source=fileName), after=after_playing
         )
+    else:
+        print(f"cannot play current song when not selected")
 
 
 def get_status():
@@ -169,6 +171,7 @@ def handle_new_song_on_queue():
         move_to_last_song_in_queue()
         if has_current_song():
             play_current_song()
+            print("started playing current song")
         else:
             print("moving to the last song did not put us on a current song")
     else:

@@ -4,7 +4,7 @@ from fastapi.concurrency import asynccontextmanager
 import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
-from src.discord_bot import get_bot
+from src.discord_bot import bot
 from src.websocket_server import websocket_handler
 
 load_dotenv()
@@ -12,9 +12,10 @@ load_dotenv()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    bot = get_bot()
-    bot_task = asyncio.create_task(bot.start(os.getenv("DISCORD_SECRET")))
-    app.state.bot_task = bot_task
+    async def start_bot():
+        await bot.start(os.getenv("DISCORD_SECRET"))
+
+    app.state.bot_task = asyncio.create_task(start_bot())
     yield
     app.state.bot_task.cancel()
     await asyncio.gather(app.state.bot_task, return_exceptions=True)
