@@ -1,12 +1,13 @@
 FROM node:20 AS build-stage
+RUN npm install -g pnpm
 
 WORKDIR /app
 
 COPY client/package.json client/package-lock.json ./
-RUN npm install
+RUN pnpm install
 
 COPY client/ ./
-RUN npm run build
+RUN pnpm run build
 
 FROM python:3.12
 RUN apt-get update && apt-get install -y ffmpeg
