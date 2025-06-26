@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  discord-bot:
+    build: .
+    container_name: discord-bot
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "5677:5677"
+      - "5678:5678"
+    volumes:
+      - songs-data:/tmp/songs
+
+volumes:
+  songs-data:
