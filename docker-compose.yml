@@ -15,10 +15,11 @@ services:
 
   mcpo:
     image: ghcr.io/astral-sh/uv:latest
-    container_name: mcpo
+    container_name: mcpo-discord
     command: >
       bash -c '
-        mcpo \
+        uvx \
+          mcpo \
           --port 5679 \
           --server-type "streamable_http" \
           -- http://127.0.0.1:5678/mcp
