@@ -44,7 +44,7 @@ services:
     entrypoint: sh
     command: |
       -c "
-        cd /app
+        cd /app/api
         export PATH=/home/developer/.local/bin:$PATH
         uv sync
         PYTHONUNBUFFERED=1 uv run fastapi dev main.py --host 0.0.0.0 --port 8080

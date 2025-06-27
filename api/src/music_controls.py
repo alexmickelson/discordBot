@@ -18,8 +18,7 @@ from src.song_queue import (
 )
 
 
-class MusicMessageControls:
-
+class MusicControls:
     def seek_to_position(self, data):
         if "position" not in data:
             return BotResponse(

@@ -7,8 +7,9 @@ import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from src.discord_bot import bot, connect_to_channel_by_name, is_bot_connected
 from src.models import BotResponse
-from src.music_message_controls import MusicMessageControls
 from fastapi.staticfiles import StaticFiles
+from api.src.mcp_server import start_mcp_server
+from api.src.music_controls import MusicControlsControls
 
 load_dotenv()
 
@@ -16,13 +17,15 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app):
     asyncio.create_task(bot.start(os.getenv("DISCORD_SECRET")))
+    # Start MCP server in background
+    start_mcp_server()
     yield
 
 
 app = FastAPI(lifespan=lifespan)
 
 connected_clients: Set[WebSocket] = set()
-controls = MusicMessageControls()
+controls = MusicControlsControls()
 
 async def broadcast_bot_response(response: BotResponse):
     if connected_clients:
