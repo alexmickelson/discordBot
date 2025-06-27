@@ -132,8 +132,9 @@ class MusicControls:
                 error="URL must contain a 'v' query parameter, e.g. https://youtube.com/watch?v=VIDEO_ID",
             )
         new_query = urlencode({"v": v_param[0]})
-        url = urlunparse(parsed._replace(query=new_query))
-        add_to_queue(url)
+        updated = urlunparse(parsed._replace(query=new_query))
+        print("parsed url to be", updated)
+        add_to_queue(updated)
         return BotResponse(
             message_type=MessageType.ADD_SONG_TO_QUEUE,
             status=get_status(),
