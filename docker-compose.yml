@@ -8,13 +8,20 @@ services:
     ports:
       - "5677:5677"
       - "5678:5678"
-
     volumes:
       - songs-data:/tmp/songs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5677/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mcpo:
     image: ghcr.io/open-webui/mcpo:main
     container_name: mcpo-discord
+    depends_on:
+      discord-bot:
+        condition: service_healthy
     command:
       [
         "--host",

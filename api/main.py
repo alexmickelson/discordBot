@@ -4,7 +4,7 @@ from typing import Set
 from dotenv import load_dotenv
 from fastapi.concurrency import asynccontextmanager
 import asyncio
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, APIRouter
 from src.music_controls import MusicControls
 from src.discord_bot import bot, connect_to_channel_by_name, is_bot_connected
 from src.models import BotResponse
@@ -80,5 +80,10 @@ async def websocket_endpoint(websocket: WebSocket):
         await connect_to_channel_by_name("Absolute Sophistication")
     await websocket_handler(websocket)
 
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
 app.mount("/", StaticFiles(directory="/app/client-dist", html=True), name="client-dist")
