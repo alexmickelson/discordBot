@@ -20,6 +20,7 @@ from src.song_queue import (
 )
 
 from typing import Any, Dict, Optional
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
 
 class MusicControls:
@@ -78,7 +79,7 @@ class MusicControls:
             message_type=MessageType.ALL_SONGS_LIST,
             message=None,
             playback_information=None,
-                song_queue=get_queue_status(),
+            song_queue=get_queue_status(),
             error=None,
             all_songs_list=all_songs_list,
         )
@@ -121,6 +122,17 @@ class MusicControls:
         )
 
     def add_to_queue(self, url: str) -> BotResponse:
+        parsed = urlparse(url)
+        qs = parse_qs(parsed.query)
+        v_param = qs.get("v")
+        if not v_param:
+            return BotResponse(
+                message_type=MessageType.ERROR,
+                status=get_status(),
+                error="URL must contain a 'v' query parameter, e.g. https://youtube.com/watch?v=VIDEO_ID",
+            )
+        new_query = urlencode({"v": v_param[0]})
+        url = urlunparse(parsed._replace(query=new_query))
         add_to_queue(url)
         return BotResponse(
             message_type=MessageType.ADD_SONG_TO_QUEUE,
