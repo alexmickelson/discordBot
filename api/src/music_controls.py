@@ -72,15 +72,13 @@ class MusicControls:
             )
 
     def get_all_songs(self) -> BotResponse:
-        status = get_queue_status()
         all_songs_list = get_all_songs()
         print("all_songs_list", all_songs_list)
         return BotResponse(
             message_type=MessageType.ALL_SONGS_LIST,
-            status=status,
             message=None,
             playback_information=None,
-            song_queue=None,
+                song_queue=get_queue_status(),
             error=None,
             all_songs_list=all_songs_list,
         )
