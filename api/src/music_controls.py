@@ -52,12 +52,14 @@ class MusicControls:
 
     def get_playback_info(self) -> BotResponse:
         status = get_queue_status()
+        all_songs = get_all_songs()
         if not has_current_song():
             return BotResponse(
                 message_type=MessageType.PLAYBACK_INFORMATION,
                 status=BotStatus.IDLE,
                 playback_information=None,
                 song_queue=status,
+                all_songs_list=all_songs,
             )
         else:
             info = get_playback_info()
@@ -66,14 +68,16 @@ class MusicControls:
                 status=BotStatus.PLAYING if info else BotStatus.IDLE,
                 playback_information=info,
                 song_queue=status,
+                all_songs_list=all_songs,
             )
 
     def get_all_songs(self) -> BotResponse:
+        status = get_queue_status()
         all_songs_list = get_all_songs()
         print("all_songs_list", all_songs_list)
         return BotResponse(
             message_type=MessageType.ALL_SONGS_LIST,
-            status=get_status(),
+            status=status,
             message=None,
             playback_information=None,
             song_queue=None,
@@ -84,12 +88,14 @@ class MusicControls:
     def add_song_to_queue(self, filename: str) -> BotResponse:
         success = add_existing_song_to_queue(filename)
         handle_new_song_on_queue()
+        all_songs = get_all_songs()
         if success:
             return BotResponse(
                 message_type=MessageType.ADD_SONG_TO_QUEUE,
                 status=get_status(),
                 message="Song added to queue",
                 song_queue=get_queue_status(),
+                all_songs_list=all_songs,
             )
         else:
             return BotResponse(
