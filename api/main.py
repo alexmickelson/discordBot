@@ -17,7 +17,12 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app):
     discord_task = asyncio.create_task(bot.start(os.getenv("DISCORD_SECRET")))
-    mcp_task = asyncio.create_task(discord_mcp.run_async(transport="http"))
+    mcp_task = asyncio.create_task(
+        discord_mcp.run_async(
+            transport="http",
+            port=5678,
+        )
+    )
     yield
     discord_task.cancel()
     mcp_task.cancel()

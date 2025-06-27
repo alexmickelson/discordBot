@@ -40,7 +40,7 @@ services:
     working_dir: /app
     ports:
       - "127.0.0.1:8080:8080"
-      - "127.0.0.1:5678:5678"
+      - "127.0.0.1:8000:8000" # mcp
     entrypoint: sh
     command: |
       -c "
