@@ -16,9 +16,8 @@ services:
   mcpo:
     image: ghcr.io/astral-sh/uv:debian
     container_name: mcpo-discord
-    entrypoint: ["bash", "-c"]
+    entrypoint: ["uvx"]
     command: >
-      uvx \
       mcpo \
       --port 5679 \
       --server-type "streamable_http" \
