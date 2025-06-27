@@ -16,14 +16,13 @@ services:
   mcpo:
     image: ghcr.io/astral-sh/uv:latest
     container_name: mcpo-discord
+    entrypoint: ["bash", "-c"]
     command: >
-      bash -c '
-        uvx \
-          mcpo \
-          --port 5679 \
-          --server-type "streamable_http" \
-          -- http://127.0.0.1:5678/mcp
-      '
+      uvx \
+      mcpo \
+      --port 5679 \
+      --server-type "streamable_http" \
+      -- http://127.0.0.1:5678/mcp
     ports:
       - "5679:5679"
     restart: unless-stopped
