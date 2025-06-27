@@ -9,9 +9,23 @@ services:
     ports:
       - "5677:5677"
       - "5678:5678"
-      
+
     volumes:
       - songs-data:/tmp/songs
+
+  mcpo:
+    image: ghcr.io/astral-sh/uv:latest
+    container_name: mcpo
+    command: >
+      bash -c '
+        mcpo \
+          --port 5679 \
+          --server-type "streamable_http" \
+          -- http://127.0.0.1:5678/mcp
+      '
+    ports:
+      - "5679:5679"
+    restart: unless-stopped
 
 volumes:
   songs-data:
