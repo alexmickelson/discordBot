@@ -79,6 +79,7 @@ class MusicControls:
         print("all_songs_list", all_songs_list)
         return BotResponse(
             message_type=MessageType.ALL_SONGS_LIST,
+            status=get_status(),  # Added required status field
             message=None,
             playback_information=None,
             song_queue=get_queue_status(),
