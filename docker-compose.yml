@@ -12,9 +12,10 @@ services:
       - songs-data:/tmp/songs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5677/health"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 3
+      start_period: 5s
 
   mcpo:
     image: ghcr.io/open-webui/mcpo:main

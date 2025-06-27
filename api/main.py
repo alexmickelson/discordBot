@@ -21,6 +21,7 @@ async def lifespan(app):
         discord_mcp.run_async(
             transport="http",
             port=5678,
+            host="0.0.0.0"
         )
     )
     yield
