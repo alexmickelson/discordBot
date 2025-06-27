@@ -5,11 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      // Proxy all requests except for static assets and the websocket
       "/discord_ws": {
-        target: "http://api:8000",
-        changeOrigin: true,
-        secure: false,
+        target: "http://api:8080",
+        ws: true, // Enable WebSocket proxying
       },
     },
   },

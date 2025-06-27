@@ -2,21 +2,17 @@ import { useState } from "react";
 import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
 
 export const AddUrlToQueue = () => {
-  const { sendMessage, error, message } = useMusicWebSocket();
+  const { sendMessage } = useMusicWebSocket();
   const [url, setUrl] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!url.trim()) return;
-    sendMessage({ action: "add_to_queue", url });
-    setSubmitted(true);
-    setUrl("");
-  };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!url.trim()) return;
+        sendMessage({ action: "add_to_queue", url });
+        setUrl("");
+      }}
       className="w-full max-w-lg mx-auto bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col gap-4 mt-8 border border-gray-800"
     >
       <label htmlFor="url" className="text-gray-200 font-semibold text-lg">
@@ -38,10 +34,6 @@ export const AddUrlToQueue = () => {
       >
         Add to Queue
       </button>
-      {submitted && message && (
-        <div className="text-green-400 text-sm mt-2">{message}</div>
-      )}
-      {error && <div className="text-red-400 text-sm mt-2">{error}</div>}
     </form>
   );
 };

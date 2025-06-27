@@ -67,7 +67,10 @@ async def websocket_handler(websocket: WebSocket):
 
 @app.websocket("/discord_ws")
 async def websocket_endpoint(websocket: WebSocket):
+    print("received websocket connection")
+
     await websocket.accept()
+
     if not is_bot_connected():
         await connect_to_channel_by_name("Absolute Sophistication")
     await websocket_handler(websocket)

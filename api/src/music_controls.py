@@ -1,3 +1,4 @@
+import inspect
 from src.models import BotResponse, BotStatus, MessageType
 from src.my_voice_client import get_voice_client
 from src.playback_service import (
@@ -131,12 +132,10 @@ class MusicControls:
                 status=get_status(),
                 error="Invalid request, action is required",
             )
+        # print("Received action:", data["action"])
         # Dynamically call method based on action
         method = getattr(self, data["action"], None)
         if callable(method):
-            # Map data keys to method params
-            import inspect
-
             sig = inspect.signature(method)
             params = {k: data[k] for k in sig.parameters if k in data}
             return method(**params)

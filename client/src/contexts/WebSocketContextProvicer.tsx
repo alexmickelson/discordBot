@@ -10,7 +10,7 @@ export const WebSocketConnectionProvider: FC<{ children: ReactNode }> = ({
     const websocket = new WebSocket(
       `${window.location.protocol === "https:" ? "wss" : "ws"}://${
         window.location.host
-      }/ws`
+      }/discord_ws`
     );
     setWs(websocket);
     return () => {
