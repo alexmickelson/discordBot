@@ -16,7 +16,7 @@ services:
   mcpo:
     image: ghcr.io/astral-sh/uv:latest
     container_name: mcpo-discord
-    entrypoint: ["bash", "-c"]
+    entrypoint: ["sh", "-c"]
     command: >
       uvx \
       mcpo \
