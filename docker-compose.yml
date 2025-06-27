@@ -14,9 +14,9 @@ services:
       - songs-data:/tmp/songs
 
   mcpo:
-    image: ghcr.io/astral-sh/uv:latest
+    image: ghcr.io/astral-sh/uv:debian
     container_name: mcpo-discord
-    entrypoint: ["sh", "-c"]
+    entrypoint: ["bash", "-c"]
     command: >
       uvx \
       mcpo \
