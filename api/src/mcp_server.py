@@ -40,6 +40,19 @@ def unpause_song():
     return controls.unpause_song()
 
 
-@discord_mcp.tool
+@discord_mcp.tool(
+    description="""
+        Adds a YouTube video to the playback queue.
+
+        Args:
+            url (str): The URL of the YouTube video to add. The URL must be a valid YouTube video link containing only the 'v=' query parameter (e.g., 'https://www.youtube.com/watch?v=VIDEO_ID').
+
+        Returns:
+            The result of adding the video to the queue.
+
+        Note:
+            Ensure that the provided URL is a direct YouTube video link with only the 'v=' parameter and no additional query parameters.
+        """
+)
 def add_to_queue(url: str):
     return controls.add_to_queue(url)
