@@ -41,7 +41,9 @@ class MusicControls:
 
     def play_song_by_index(self, position: int) -> BotResponse:
         set_queue_position(position)
-        get_voice_client().stop()
+        vc = get_voice_client()
+        if vc is not None:
+            vc.stop()
         play_current_song()
         info = get_playback_info()
         return BotResponse(
