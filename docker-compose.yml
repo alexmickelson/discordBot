@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   discord-bot:
     build: .
@@ -14,14 +13,19 @@ services:
       - songs-data:/tmp/songs
 
   mcpo:
-    image: ghcr.io/astral-sh/uv:debian
+    image: ghcr.io/open-webui/mcpo:main
     container_name: mcpo-discord
-    entrypoint: ["bash"]
-    command: >
-      uvx mcpo \
-      --port 5679 \
-      --server-type "streamable_http" \
-      -- http://discord-bot:5678/mcp
+    command:
+      [
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "5679",
+        "--server-type",
+        "streamable_http",
+        "--",
+        "http://discord-bot:5678/mcp",
+      ]
     ports:
       - "5679:5679"
     restart: unless-stopped
