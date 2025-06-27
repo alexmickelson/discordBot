@@ -1,7 +1,7 @@
-import { useWebSocket } from "../contexts/useWebSocket";
+import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
 
 export const AllSongs = () => {
-  const { allSongsList, songQueue, sendMessage } = useWebSocket();
+  const { allSongsList, songQueue, sendMessage } = useMusicWebSocket();
 
   const isInQueue = (filename: string) => {
     if (!songQueue || !songQueue.song_file_list) return false;

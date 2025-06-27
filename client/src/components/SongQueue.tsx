@@ -1,8 +1,8 @@
-import { useWebSocket } from "../contexts/useWebSocket";
+import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
 import { SongIcon } from "./SongIcon";
 
 export const SongQueue = () => {
-  const { songQueue } = useWebSocket();
+  const { songQueue } = useMusicWebSocket();
 
   return (
     <div className="bg-violet-950/50 rounded-xl shadow-lg p-4 max-w-xl mx-auto mt-6">

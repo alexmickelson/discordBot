@@ -11,22 +11,19 @@ from src.playback_service import (
 )
 from src.song_queue import (
     add_existing_song_to_queue,
+    add_to_queue,
     get_all_songs,
     get_queue_status,
     has_current_song,
     set_queue_position,
 )
 
+from typing import Any, Dict, Optional
+
 
 class MusicControls:
-    def seek_to_position(self, data):
-        if "position" not in data:
-            return BotResponse(
-                message_type=MessageType.ERROR,
-                status=get_status(),
-                error="Invalid request, position is required",
-            )
-        result = change_playback_position(data["position"])
+    def seek_to_position(self, position: int) -> BotResponse:
+        result = change_playback_position(position)
         if result:
             return BotResponse(
                 message_type=MessageType.MESSAGE,
@@ -40,14 +37,8 @@ class MusicControls:
                 error="unable to change position",
             )
 
-    def play_song_by_index(self, data):
-        if "position" not in data:
-            return BotResponse(
-                message_type=MessageType.ERROR,
-                status=get_status(),
-                error="Invalid request, position is required",
-            )
-        set_queue_position(data["position"])
+    def play_song_by_index(self, position: int) -> BotResponse:
+        set_queue_position(position)
         get_voice_client().stop()
         play_current_song()
         info = get_playback_info()
@@ -58,7 +49,7 @@ class MusicControls:
             song_queue=get_queue_status(),
         )
 
-    def get_playback_info(self, data):
+    def get_playback_info(self) -> BotResponse:
         status = get_queue_status()
         if not has_current_song():
             return BotResponse(
@@ -76,7 +67,7 @@ class MusicControls:
                 song_queue=status,
             )
 
-    def get_all_songs(self, data):
+    def get_all_songs(self) -> BotResponse:
         all_songs_list = get_all_songs()
         print("all_songs_list", all_songs_list)
         return BotResponse(
@@ -89,14 +80,7 @@ class MusicControls:
             all_songs_list=all_songs_list,
         )
 
-    def add_song_to_queue(self, data):
-        if "filename" not in data:
-            return BotResponse(
-                message_type=MessageType.ERROR,
-                status=get_status(),
-                error="Invalid request, filename is required",
-            )
-        filename = data["filename"]
+    def add_song_to_queue(self, filename: str) -> BotResponse:
         success = add_existing_song_to_queue(filename)
         handle_new_song_on_queue()
         if success:
@@ -113,7 +97,7 @@ class MusicControls:
                 error="Failed to add song to queue",
             )
 
-    def pause_song(self, data):
+    def pause_song(self) -> BotResponse:
         pause_song()
         return BotResponse(
             message_type=MessageType.PLAYBACK_INFORMATION,
@@ -122,7 +106,7 @@ class MusicControls:
             song_queue=get_queue_status(),
         )
 
-    def unpause_song(self, data):
+    def unpause_song(self) -> BotResponse:
         unpause_song()
         return BotResponse(
             message_type=MessageType.PLAYBACK_INFORMATION,
@@ -131,21 +115,34 @@ class MusicControls:
             song_queue=get_queue_status(),
         )
 
-    async def ws_message(self, data):
+    def add_to_queue(self, url: str) -> BotResponse:
+        add_to_queue(url)
+        return BotResponse(
+            message_type=MessageType.ADD_SONG_TO_QUEUE,
+            status=get_status(),
+            message="Song added to queue from URL",
+            song_queue=get_queue_status(),
+        )
+
+    async def ws_message(self, data: Dict[str, Any]) -> BotResponse:
         if "action" not in data:
             return BotResponse(
                 message_type=MessageType.ERROR,
                 status=get_status(),
                 error="Invalid request, action is required",
             )
-
         # Dynamically call method based on action
         method = getattr(self, data["action"], None)
         if callable(method):
-            return method(data)
+            # Map data keys to method params
+            import inspect
+
+            sig = inspect.signature(method)
+            params = {k: data[k] for k in sig.parameters if k in data}
+            return method(**params)
         else:
             return BotResponse(
                 message_type=MessageType.ERROR,
                 status=get_status(),
-                error=f"Unknown action: {data["action"]}",
+                error=f"Unknown action: {data['action']}",
             )

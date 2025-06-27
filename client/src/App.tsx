@@ -1,3 +1,4 @@
+import { AddUrlToQueue } from "./components/AddUrlToQueue";
 import { AllSongs } from "./components/AllSongs";
 import { CurrentSong } from "./components/CurrentSong";
 import { PlaybackInfo } from "./components/PlaybackInfo";
@@ -12,6 +13,8 @@ export const App = () => {
       <PlaybackInfo />
       <hr />
       <AllSongs />
+      <hr />
+      <AddUrlToQueue />
     </div>
   );
 };

@@ -1,25 +1,19 @@
 import { createContext, useContext } from "react";
-import { PlaybackInfoData, SongQueue, SongMetadata } from "../models";
 
-interface WebSocketContextType {
+interface WebSocketConnectionContextType {
   ws: WebSocket | undefined;
-  error: string;
-  message: string;
-  botStatus: string | undefined;
-  playbackInfo: PlaybackInfoData | undefined;
-  songQueue: SongQueue | undefined;
-  sendMessage: (message: unknown) => void;
-  allSongsList: SongMetadata[];
 }
 
-export const WebSocketContext = createContext<WebSocketContextType | undefined>(
-  undefined
-);
+export const WebSocketConnectionContext = createContext<
+  WebSocketConnectionContextType | undefined
+>(undefined);
 
-export const useWebSocket = () => {
-  const context = useContext(WebSocketContext);
+export const useWebSocketConnection = () => {
+  const context = useContext(WebSocketConnectionContext);
   if (!context) {
-    throw new Error("useWebSocket must be used within a WebSocketProvider");
+    throw new Error(
+      "useWebSocketConnection must be used within a WebSocketConnectionProvider"
+    );
   }
   return context;
 };

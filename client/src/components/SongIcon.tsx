@@ -1,10 +1,10 @@
 import React from "react";
-import { useWebSocket } from "../contexts/useWebSocket";
+import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
 
 export const SongIcon: React.FC<{
   index: number;
 }> = ({ index }) => {
-  const { songQueue, sendMessage } = useWebSocket();
+  const { songQueue, sendMessage } = useMusicWebSocket();
   if (!songQueue) return null;
   const isCurrent = index === songQueue.position;
   const isPaused = songQueue.is_paused;

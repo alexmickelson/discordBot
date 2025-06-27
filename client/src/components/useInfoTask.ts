@@ -1,21 +1,23 @@
 import { useEffect } from "react";
+import { useWebSocketConnection } from "../contexts/useWebSocket";
 
 const updateInterval = 100;
 
 const getPlaybackInfo = (ws: WebSocket) => {
   ws.send(JSON.stringify({ action: "get_playback_info" }));
 };
-export const useInfoTask = (websocket?: WebSocket) => {
+export const useInfoTask = () => {
+  const { ws } = useWebSocketConnection();
   useEffect(() => {
     const interval = setInterval(() => {
       if (
-        websocket &&
-        websocket.readyState === WebSocket.OPEN
+        ws &&
+        ws.readyState === ws.OPEN
       ) {
-        getPlaybackInfo(websocket);
+        getPlaybackInfo(ws);
       }
     }, updateInterval);
 
     return () => clearInterval(interval);
-  }, [websocket]);
+  }, [ws]);
 };

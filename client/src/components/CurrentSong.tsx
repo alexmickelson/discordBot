@@ -1,8 +1,10 @@
-import { useWebSocket } from "../contexts/useWebSocket";
+import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
+import { useWebSocketConnection } from "../contexts/useWebSocket";
 import { Slider } from "./Slider";
 
 export const CurrentSong = () => {
-  const { ws, playbackInfo, sendMessage } = useWebSocket();
+  const { playbackInfo, sendMessage } = useMusicWebSocket();
+  const { ws } = useWebSocketConnection();
   return (
     <>
       {playbackInfo && (
