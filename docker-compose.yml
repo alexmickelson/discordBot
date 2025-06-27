@@ -18,7 +18,7 @@ services:
     container_name: mcpo-discord
     entrypoint: ["bash", "-c"]
     command: >
-      uvx \
+      uv run \
       mcpo \
       --port 5679 \
       --server-type "streamable_http" \
