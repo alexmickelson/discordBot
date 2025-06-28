@@ -122,6 +122,7 @@ class MusicControls:
         )
 
     def add_to_queue(self, url: str) -> BotResponse:
+        print("request to add to queue with url", url)
         parsed = urlparse(url)
         qs = parse_qs(parsed.query)
         v_param = qs.get("v")
