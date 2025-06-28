@@ -107,8 +107,7 @@ async def health():
     return {"status": "ok"}
 
 
+app.include_router(playback_router)
+
 os.makedirs("/app/client-dist", exist_ok=True)
 app.mount("/", StaticFiles(directory="/app/client-dist", html=True), name="client-dist")
-
-
-app.include_router(playback_router)

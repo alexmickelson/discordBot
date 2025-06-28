@@ -22,6 +22,7 @@ export interface SongMetadata {
   filename: string;
   duration: number;
   url: string;
+  thumbnail: string;
 }
 
 export interface BotResponse {

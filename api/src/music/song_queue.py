@@ -4,7 +4,13 @@ from typing import List
 import discord
 import yt_dlp
 import glob
-from src.models import BotStatus, PlaybackInformation, SongItem, SongQueueStatus, SongMetadata
+from src.models import (
+    BotStatus,
+    PlaybackInformation,
+    SongItem,
+    SongQueueStatus,
+    SongMetadata,
+)
 from src.music.my_voice_client import get_is_paused_from_voice_client, get_voice_client
 
 DATA_PATH = "/tmp/songs"
@@ -16,10 +22,15 @@ pause_offset = -1
 
 
 def __handle_metadata(filename: str, song_duration: int, url: str):
-    from src.models import SongMetadata
-
     json_path = filename.rsplit(".", 1)[0] + ".json"
-    song_metadata = SongMetadata(filename=filename, duration=song_duration, url=url)
+    thumbnail_path = filename.rsplit(".", 1)[0] + ".jpg"
+    thumbnail_filename = os.path.basename(thumbnail_path)
+    song_metadata = SongMetadata(
+        filename=filename,
+        duration=song_duration,
+        url=url,
+        thumbnail=thumbnail_filename,
+    )
     with open(json_path, "w") as f:
         f.write(song_metadata.model_dump_json())
 
@@ -32,12 +43,14 @@ def __download_url(url: str):
         "noplaylist": True,
         "quiet": True,
         "nooverwrites": False,
+        "writethumbnail": True,  # Download thumbnail as well
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
                 "preferredquality": "192",
-            }
+            },
+            {"key": "FFmpegThumbnailsConvertor", "format": "jpg"},
         ],
     }
     try:
@@ -47,6 +60,7 @@ def __download_url(url: str):
             song_duration = res["duration"]
             print(f"got file {filename} {song_duration}")
             __handle_metadata(filename, song_duration, url)
+
             return filename, song_duration
     except Exception as e:
         print(f"Error in download: {e}")
@@ -56,7 +70,7 @@ def __download_url(url: str):
 def get_all_songs():
     all_songs_list = []
     for json_path in glob.glob(f"{DATA_PATH}/*.json"):
-        print(f"checking {json_path}")
+        # print(f"checking {json_path}")
         try:
             with open(json_path, "r") as f:
                 data = f.read()
@@ -155,6 +169,8 @@ def get_queue_status():
 def set_queue_position(position: int):
     global current_song_start_time, song_file_list, current_position
     current_position = position
+
+
 def after_playing(error):
     if error:
         print(f"Error during playback: {error}")

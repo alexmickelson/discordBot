@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 from src.discord_utils import connect_to_channel_by_name, is_bot_connected
 from src.music.music_controls import MusicControls
+from fastapi.responses import FileResponse
+import os
+from src.music.song_queue import DATA_PATH
 
 controls = MusicControls()
 
@@ -61,3 +64,15 @@ async def api_add_to_queue(url: str):
     if not is_bot_connected():
         await connect_to_channel_by_name("Absolute Sophistication")
     return controls.add_to_queue(url)
+
+
+@playback_router.get("/get_song_thumbnail")
+def api_get_song_thumbnail(thumbnail: str):
+
+    print(f"Requested thumbnail: {thumbnail}")    
+    # if os.path.sep in thumbnail or thumbnail.startswith(".."):
+    #     return {"error": "Invalid thumbnail filename."}
+
+    if not os.path.isfile(thumbnail):
+        return {"error": "Thumbnail not found."}
+    return FileResponse(thumbnail)

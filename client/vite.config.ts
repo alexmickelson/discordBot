@@ -9,6 +9,9 @@ export default defineConfig({
         target: "http://api:8080",
         ws: true, // Enable WebSocket proxying
       },
+      "/api": {
+        target: "http://api:8080",
+      },
     },
   },
 });

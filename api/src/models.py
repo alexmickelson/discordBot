@@ -25,6 +25,7 @@ class SongMetadata(BaseModel):
     filename: str
     duration: int
     url: str
+    thumbnail: str
 
 
 class SongQueueStatus(BaseModel):

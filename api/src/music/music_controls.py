@@ -141,24 +141,3 @@ class MusicControls:
             message="Song added to queue from URL",
             song_queue=get_queue_status(),
         )
-
-    # async def ws_message(self, data: Dict[str, Any]) -> BotResponse:
-    #     if "action" not in data:
-    #         return BotResponse(
-    #             message_type=MessageType.ERROR,
-    #             status=get_status(),
-    #             error="Invalid request, action is required",
-    #         )
-    #     # print("Received action:", data["action"])
-    #     # Dynamically call method based on action
-    #     method = getattr(self, data["action"], None)
-    #     if callable(method):
-    #         sig = inspect.signature(method)
-    #         params = {k: data[k] for k in sig.parameters if k in data}
-    #         return method(**params)
-    #     else:
-    #         return BotResponse(
-    #             message_type=MessageType.ERROR,
-    #             status=get_status(),
-    #             error=f"Unknown action: {data['action']}",
-    #         )

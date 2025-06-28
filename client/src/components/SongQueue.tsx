@@ -21,6 +21,8 @@ export const SongQueue = () => {
                   }`}
                   style={{ minHeight: 56 }}
                 >
+
+
                   <div className="flex-none w-10 text-right">
                     <SongIcon index={i} />
                   </div>
