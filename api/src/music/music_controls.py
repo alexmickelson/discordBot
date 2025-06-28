@@ -1,26 +1,25 @@
 import inspect
 from src.models import BotResponse, BotStatus, MessageType
-from src.discord_playback_service import (
-    change_playback_position,
-    get_playback_info,
-    get_status,
-    handle_new_song_on_queue,
-    play_current_song,
-    pause_song,  # add import
-    unpause_song,  # add import
-)
-from src.my_voice_client import get_voice_client
-from src.song_queue import (
+
+from typing import Any, Dict
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+from src.music.my_voice_client import stop_playback
+from src.music.song_queue import (
     add_existing_song_to_queue,
     add_to_queue,
+    change_playback_position,
     get_all_songs,
+    get_playback_info,
     get_queue_status,
+    get_status,
+    handle_new_song_on_queue,
     has_current_song,
+    pause_song,
+    play_current_song,
     set_queue_position,
+    unpause_song,
 )
-
-from typing import Any, Dict, Optional
-from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
 
 class MusicControls:
@@ -41,9 +40,7 @@ class MusicControls:
 
     def play_song_by_index(self, position: int) -> BotResponse:
         set_queue_position(position)
-        vc = get_voice_client()
-        if vc is not None:
-            vc.stop()
+        stop_playback()
         play_current_song()
         info = get_playback_info()
         return BotResponse(
@@ -145,23 +142,23 @@ class MusicControls:
             song_queue=get_queue_status(),
         )
 
-    async def ws_message(self, data: Dict[str, Any]) -> BotResponse:
-        if "action" not in data:
-            return BotResponse(
-                message_type=MessageType.ERROR,
-                status=get_status(),
-                error="Invalid request, action is required",
-            )
-        # print("Received action:", data["action"])
-        # Dynamically call method based on action
-        method = getattr(self, data["action"], None)
-        if callable(method):
-            sig = inspect.signature(method)
-            params = {k: data[k] for k in sig.parameters if k in data}
-            return method(**params)
-        else:
-            return BotResponse(
-                message_type=MessageType.ERROR,
-                status=get_status(),
-                error=f"Unknown action: {data['action']}",
-            )
+    # async def ws_message(self, data: Dict[str, Any]) -> BotResponse:
+    #     if "action" not in data:
+    #         return BotResponse(
+    #             message_type=MessageType.ERROR,
+    #             status=get_status(),
+    #             error="Invalid request, action is required",
+    #         )
+    #     # print("Received action:", data["action"])
+    #     # Dynamically call method based on action
+    #     method = getattr(self, data["action"], None)
+    #     if callable(method):
+    #         sig = inspect.signature(method)
+    #         params = {k: data[k] for k in sig.parameters if k in data}
+    #         return method(**params)
+    #     else:
+    #         return BotResponse(
+    #             message_type=MessageType.ERROR,
+    #             status=get_status(),
+    #             error=f"Unknown action: {data['action']}",
+    #         )
