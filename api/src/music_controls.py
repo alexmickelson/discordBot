@@ -1,7 +1,6 @@
 import inspect
 from src.models import BotResponse, BotStatus, MessageType
-from src.my_voice_client import get_voice_client
-from src.playback_service import (
+from src.discord_playback_service import (
     change_playback_position,
     get_playback_info,
     get_status,
@@ -10,6 +9,7 @@ from src.playback_service import (
     pause_song,  # add import
     unpause_song,  # add import
 )
+from src.my_voice_client import get_voice_client
 from src.song_queue import (
     add_existing_song_to_queue,
     add_to_queue,

@@ -9,6 +9,8 @@ controls = MusicControls()
 async def ensure_bot_connected():
     if not is_bot_connected():
         await connect_to_channel_by_name("Absolute Sophistication")
+
+
 @discord_mcp.tool
 async def seek_to_position(position: int):
     await ensure_bot_connected()

@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from src.my_voice_client import get_voice_client, set_voice_client
-from src.playback_service import (
+from api.src.discord_playback_service import (
     handle_new_song_on_queue,
     pause_song,
 )

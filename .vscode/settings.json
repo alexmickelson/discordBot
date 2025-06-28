@@ -5,6 +5,12 @@
   "python.linting.pylintEnabled": false,
   "python.linting.banditEnabled": true,
   "terminal.integrated.env.linux": {
-    "PYTHONPATH": "${workspaceFolder}/api/src"
-  }
+    "PYTHONPATH": "${workspaceFolder}/api"
+  },
+  "python.analysis.extraPaths": [
+    "./api"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./api"
+  ]
 }
