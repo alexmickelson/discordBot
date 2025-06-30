@@ -37,6 +37,7 @@ services:
     ports:
       - "5679:5679"
     restart: unless-stopped
+    
   mcpo_sse:
     image: ghcr.io/open-webui/mcpo:main
     container_name: mcpo-discord-sse
