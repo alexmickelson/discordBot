@@ -38,26 +38,6 @@ services:
       - "5679:5679"
     restart: unless-stopped
     
-  mcpo_sse:
-    image: ghcr.io/open-webui/mcpo:main
-    container_name: mcpo-discord-sse
-    depends_on:
-      discord-bot:
-        condition: service_healthy
-    command:
-      [
-        "--host",
-        "0.0.0.0",
-        "--port",
-        "5675",
-        "--server-type",
-        "sse",
-        "--",
-        "http://discord-bot:5678/mcp",
-      ]
-    ports:
-      - "5675:5675"
-    restart: unless-stopped
 
 volumes:
   songs-data:
