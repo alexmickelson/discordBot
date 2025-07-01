@@ -7,14 +7,18 @@ import "./index.css";
 import { WebSocketConnectionProvider } from "./contexts/WebSocketContextProvicer";
 import { MusicWebSocketProvider } from "./contexts/MusicWebSocketProvider";
 import { CustomToaster } from "./features/CustomToaster";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { getQueryClient } from "./utils/getQueryClient";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <WebSocketConnectionProvider>
-      <MusicWebSocketProvider>
-        <CustomToaster />
-        <App />
-      </MusicWebSocketProvider>
-    </WebSocketConnectionProvider>
+    <QueryClientProvider client={getQueryClient()}>
+      <WebSocketConnectionProvider>
+        <MusicWebSocketProvider>
+          <CustomToaster />
+          <App />
+        </MusicWebSocketProvider>
+      </WebSocketConnectionProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

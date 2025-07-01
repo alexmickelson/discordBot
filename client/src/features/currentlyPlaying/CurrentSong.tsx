@@ -1,5 +1,5 @@
-import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
-import { useWebSocketConnection } from "../contexts/useWebSocket";
+import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
+import { useWebSocketConnection } from "../../contexts/useWebSocket";
 import { Slider } from "./Slider";
 
 export const CurrentSong = () => {

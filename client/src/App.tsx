@@ -1,7 +1,7 @@
 import { AllSongs } from "./features/allSongs/AllSongs";
 import { PlaybackInfo } from "./features/currentlyPlaying/PlaybackInfo";
 import { AddUrlToQueue } from "./features/songQueue/AddUrlToQueue";
-import { CurrentSong } from "./features/songQueue/CurrentSong";
+import { CurrentSong } from "./features/currentlyPlaying/CurrentSong";
 import { SongQueue } from "./features/songQueue/SongQueue";
 
 export const App = () => {
