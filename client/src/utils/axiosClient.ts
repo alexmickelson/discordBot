@@ -2,11 +2,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 // Create an Axios instance
-const axiosClient = axios.create({
-  // You can set a baseURL here if needed
-  // baseURL: "/api",
-  timeout: 10000,
-});
+const axiosClient = axios.create({});
 
 // Add a response interceptor for global error handling
 axiosClient.interceptors.response.use(
