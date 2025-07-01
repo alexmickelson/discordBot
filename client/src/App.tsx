@@ -1,8 +1,8 @@
-import { AddUrlToQueue } from "./components/AddUrlToQueue";
-import { AllSongs } from "./components/AllSongs";
-import { CurrentSong } from "./components/CurrentSong";
-import { PlaybackInfo } from "./components/PlaybackInfo";
-import { SongQueue } from "./components/SongQueue";
+import { AllSongs } from "./features/allSongs/AllSongs";
+import { PlaybackInfo } from "./features/currentlyPlaying/PlaybackInfo";
+import { AddUrlToQueue } from "./features/songQueue/AddUrlToQueue";
+import { CurrentSong } from "./features/songQueue/CurrentSong";
+import { SongQueue } from "./features/songQueue/SongQueue";
 
 export const App = () => {
   return (

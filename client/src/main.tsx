@@ -6,11 +6,13 @@ import { App } from "./App";
 import "./index.css";
 import { WebSocketConnectionProvider } from "./contexts/WebSocketContextProvicer";
 import { MusicWebSocketProvider } from "./contexts/MusicWebSocketProvider";
+import { CustomToaster } from "./features/CustomToaster";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WebSocketConnectionProvider>
       <MusicWebSocketProvider>
+        <CustomToaster />
         <App />
       </MusicWebSocketProvider>
     </WebSocketConnectionProvider>

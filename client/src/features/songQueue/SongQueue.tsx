@@ -1,4 +1,4 @@
-import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
+import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
 import { SongIcon } from "./SongIcon";
 
 export const SongQueue = () => {

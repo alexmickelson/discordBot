@@ -1,6 +1,6 @@
 import React from "react";
-import { useInfoTask } from "./useInfoTask";
-import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
+import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
+import { useInfoTask } from "../useRefreshInfoTask";
 
 export const PlaybackInfo: React.FC = () => {
   const { error, message, botStatus } = useMusicWebSocket();

@@ -1,5 +1,5 @@
 import React from "react";
-import { useMusicWebSocket } from "../contexts/useMusicWebSocketContexts";
+import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
 
 export const SongIcon: React.FC<{
   index: number;
