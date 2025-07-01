@@ -68,11 +68,7 @@ async def api_add_to_queue(url: str):
 
 @playback_router.get("/get_song_thumbnail")
 def api_get_song_thumbnail(thumbnail: str):
-
-    print(f"Requested thumbnail: {thumbnail}")    
-    # if os.path.sep in thumbnail or thumbnail.startswith(".."):
-    #     return {"error": "Invalid thumbnail filename."}
-
+    print(f"Requested thumbnail: {thumbnail}")
     if not os.path.isfile(thumbnail):
         return {"error": "Thumbnail not found."}
     return FileResponse(thumbnail)

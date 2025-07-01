@@ -5,7 +5,7 @@ from typing import Set, Dict, Any
 from dotenv import load_dotenv
 from fastapi.concurrency import asynccontextmanager
 import asyncio
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from src.discord_utils import connect_to_channel_by_name, is_bot_connected
 from src.models import BotResponse, MessageType
 from fastapi.staticfiles import StaticFiles
@@ -103,7 +103,9 @@ async def websocket_endpoint(websocket: WebSocket):
 
 
 @app.get("/health")
-async def health():
+async def health(request: Request):
+    # Disable logging for this endpoint
+    request.scope["fastapi.logger"] = None
     return {"status": "ok"}
 
 
