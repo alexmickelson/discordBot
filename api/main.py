@@ -24,9 +24,13 @@ async def lifespan(app):
     mcp_task = asyncio.create_task(
         discord_mcp.run_async(transport="http", port=5678, host="0.0.0.0")
     )
+    # mcp_task_sse = asyncio.create_task(
+    #     discord_mcp.run_async(transport="sse", port=5676, host="0.0.0.0")
+    # )
     yield
     discord_task.cancel()
     mcp_task.cancel()
+    # mcp_task_sse.cancel()
 
 
 app = FastAPI(lifespan=lifespan)
