@@ -142,3 +142,13 @@ class MusicControls:
             message="Song added to queue from URL",
             song_queue=get_queue_status(),
         )
+
+
+controls: MusicControls | None = None
+
+
+def get_music_controls() -> MusicControls:
+    global controls
+    if controls is None:
+        controls = MusicControls()
+    return controls

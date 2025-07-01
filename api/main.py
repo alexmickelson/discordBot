@@ -10,7 +10,7 @@ from src.discord_utils import connect_to_channel_by_name, is_bot_connected
 from src.models import BotResponse, MessageType
 from fastapi.staticfiles import StaticFiles
 from src.mcp_server import discord_mcp
-from src.music.music_controls import MusicControls
+from src.music.music_controls import MusicControls, get_music_controls
 from src.music.song_queue import get_status
 from src.playback_router import playback_router
 from src.discord_bot import bot
@@ -36,7 +36,7 @@ async def lifespan(app):
 app = FastAPI(lifespan=lifespan)
 
 connected_clients: Set[WebSocket] = set()
-controls = MusicControls()
+controls = get_music_controls()
 
 
 async def broadcast_bot_response(response: BotResponse):

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from src.discord_utils import connect_to_channel_by_name, is_bot_connected
-from src.music.music_controls import MusicControls
+from src.music.music_controls import MusicControls, get_music_controls
 from fastapi.responses import FileResponse
 import os
 from src.music.song_queue import DATA_PATH
 
-controls = MusicControls()
+controls = get_music_controls()
 
 playback_router = APIRouter(prefix="/api")
 

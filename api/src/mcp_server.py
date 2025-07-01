@@ -1,9 +1,9 @@
 from fastmcp import FastMCP
 from src.discord_utils import connect_to_channel_by_name, is_bot_connected
-from src.music.music_controls import MusicControls
+from src.music.music_controls import MusicControls, get_music_controls
 
 discord_mcp = FastMCP("Discord Music MCP")
-controls = MusicControls()
+controls = get_music_controls()
 
 
 async def ensure_bot_connected():
