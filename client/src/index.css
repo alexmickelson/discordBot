@@ -43,15 +43,25 @@ embed,
 object {
   @apply block max-w-full h-auto;
 }
-button,
+
+button {
+  @apply cursor-pointer;
+  @apply border-2 border-violet-700/50;
+  @apply bg-violet-900/50 hover:bg-violet-900 ;
+  @apply text-white font-bold;
+  @apply py-2 px-4 rounded transition-colors duration-150 shadow;
+}
+
 input,
 select,
 textarea {
-  @apply text-inherit bg-transparent border-0 outline-none;
+  @apply px-4 py-2 rounded;
+  @apply placeholder-gray-400;
+  @apply bg-violet-950/50 text-violet-200;
+  @apply border-2 border-violet-900/50;
+  @apply focus:outline-none focus:ring-2 focus:ring-violet-500;
 }
-button {
-  @apply cursor-pointer;
-}
+
 h1,
 h2,
 h3,

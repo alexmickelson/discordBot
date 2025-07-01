@@ -13,10 +13,10 @@ export const AddUrlToQueue = () => {
         sendMessage({ action: "add_to_queue", url });
         setUrl("");
       }}
-      className="w-full max-w-lg mx-auto bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col gap-4 mt-8 border border-gray-800"
+      className="w-full mx-auto bg-gray-900 rounded-xl shadow-lg p-2 flex flex-col gap-1 mt-2 border border-gray-800"
     >
       <label htmlFor="url" className="text-gray-200 font-semibold text-lg">
-        Add Song by URL
+        YouTube URL
       </label>
       <input
         id="url"
@@ -24,13 +24,15 @@ export const AddUrlToQueue = () => {
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         placeholder="Paste a song URL..."
-        className="px-4 py-2 rounded bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500 placeholder-gray-400"
+        className={[
+          "",
+        ].join(" ")}
         autoComplete="off"
         required
       />
       <button
         type="submit"
-        className="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 px-4 rounded transition-colors duration-150 shadow"
+        className=""
       >
         Add to Queue
       </button>

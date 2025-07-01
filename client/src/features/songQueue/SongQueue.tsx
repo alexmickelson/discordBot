@@ -4,10 +4,23 @@ import { SongIcon } from "./SongIcon";
 export const SongQueue = () => {
   const { songQueue } = useMusicWebSocket();
 
+  const isEmpty =
+    !songQueue ||
+    !songQueue.song_file_list ||
+    songQueue.song_file_list.length === 0;
+
   return (
-    <div className="bg-violet-950/50 rounded-xl shadow-lg p-4 max-w-xl mx-auto mt-6">
-      {songQueue && (
-        <div>
+    <div className="overflow-y-auto h-full">
+      <h3 className="text-2xl font-bold mb-4 text-center text-violet-200">
+        Song Queue
+      </h3>
+      <div className="bg-violet-950/40 rounded-lg shadow p-4">
+        {isEmpty ? (
+          <div className="flex flex-col items-center justify-center py-8 text-violet-300">
+            <i className="fas fa-music text-4xl mb-3 text-gray-500" />
+            <span className="text-lg">No songs in the queue</span>
+          </div>
+        ) : (
           <div className="">
             {songQueue.song_file_list.map((s, i) => {
               const isCurrent = i === songQueue.position;
@@ -37,8 +50,8 @@ export const SongQueue = () => {
               );
             })}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

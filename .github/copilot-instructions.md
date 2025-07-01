@@ -5,3 +5,4 @@ instructions
 
 
 - When installing javascript packages, use `pnpm`. Install them in the `client` directory. For example: `cd client && pnpm install package-name`.
+- Get all icons from the `@fortawesome/fontawesome-free` package.
