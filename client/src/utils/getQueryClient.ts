@@ -20,6 +20,7 @@ export function getQueryClient(): QueryClient {
 
 // Custom error handler for queries
 export function handleQueryError(error: unknown) {
+  console.log('in error handler', error);
   const message =
     (error &&
       typeof error === "object" &&

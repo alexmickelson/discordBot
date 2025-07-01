@@ -1,8 +1,5 @@
 import { FC, ReactNode, useState, useEffect } from "react";
 import {
-  PlaybackInfoData,
-  SongQueue,
-  SongMetadata,
   BotResponse,
 } from "../models";
 import { useWebSocketConnection } from "./useWebSocket";
@@ -10,21 +7,14 @@ import { MusicWebSocketContext } from "./useMusicWebSocketContexts";
 import { useQueryClient } from "@tanstack/react-query";
 import { playbackKeys } from "../features/playbackHooks";
 
-// MusicWebSocketProvider: manages music messaging state and logic
-
 export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const queryClient = useQueryClient();
   const { ws } = useWebSocketConnection();
-  const [playbackInfo, setPlaybackInfo] = useState<
-    PlaybackInfoData | undefined
-  >();
-  const [songQueue, setSongQueue] = useState<SongQueue | undefined>();
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState("");
   const [botStatus, setBotStatus] = useState<string | undefined>();
-  const [allSongsList, setAllSongsList] = useState<SongMetadata[]>([]);
 
   useEffect(() => {
     if (!ws) return;
@@ -44,8 +34,6 @@ export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
         response.song_queue &&
         response.playback_information
       ) {
-        setPlaybackInfo(response.playback_information);
-        setSongQueue(response.song_queue);
         queryClient.setQueryData(
           playbackKeys.playbackInfo,
           response.playback_information
@@ -57,7 +45,6 @@ export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
         response.message_type === "ALL_SONGS_LIST" &&
         response.all_songs_list
       ) {
-        setAllSongsList(response.all_songs_list);
         queryClient.setQueryData(
           playbackKeys.allSongs,
           response.all_songs_list
@@ -68,20 +55,12 @@ export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
     ws.onclose = () => {};
   }, [queryClient, ws]);
 
-  const sendMessage = (message: unknown) => {
-    if (ws) ws.send(JSON.stringify(message));
-  };
-
   return (
     <MusicWebSocketContext.Provider
       value={{
         error,
         message,
         botStatus,
-        playbackInfo,
-        songQueue,
-        sendMessage,
-        allSongsList,
       }}
     >
       {children}

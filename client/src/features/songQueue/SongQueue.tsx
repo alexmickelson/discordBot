@@ -1,8 +1,8 @@
-import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
+import { useSongQueueQuery } from "../playbackHooks";
 import { SongIcon } from "./SongIcon";
 
 export const SongQueue = () => {
-  const { songQueue } = useMusicWebSocket();
+  const { data: songQueue } = useSongQueueQuery();
 
   const isEmpty =
     !songQueue ||

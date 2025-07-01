@@ -1,9 +1,12 @@
-import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
 import { SongMetadata } from "../../models";
-import { useAddSongToQueueMutation } from "../playbackHooks";
+import {
+  useAddSongToQueueMutation,
+  useGetAllSongsQuery,
+  useSongQueueQuery,
+} from "../playbackHooks";
 
 const SongListItem = ({ song }: { song: SongMetadata }) => {
-  const { songQueue } = useMusicWebSocket();
+  const { data: songQueue } = useSongQueueQuery();
   const addSongToQueueMutation = useAddSongToQueueMutation();
 
   const isInQueue = (filename: string) => {
@@ -41,7 +44,8 @@ const SongListItem = ({ song }: { song: SongMetadata }) => {
 };
 
 export const AllSongs = () => {
-  const { allSongsList } = useMusicWebSocket();
+  const { data: allSongsList } = useGetAllSongsQuery();
+  console.log(allSongsList);
   return (
     <div className="max-w-2xl mx-auto overflow-y-auto h-full">
       <div className=" font-bold mb-2 text-center text-violet-200">All</div>

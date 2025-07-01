@@ -1,10 +1,9 @@
-import { useMusicWebSocket } from "../../contexts/useMusicWebSocketContexts";
 import { Slider } from "./Slider";
 import { Spinner } from "../../utils/Spinner";
-import { useSeekToPositionMutation } from "../playbackHooks";
+import { useSeekToPositionMutation, usePlaybackInfoQuery } from "../playbackHooks";
 
 export const CurrentSong = () => {
-  const { playbackInfo } = useMusicWebSocket();
+  const { data: playbackInfo } = usePlaybackInfoQuery();
   const seekToPositionMutation = useSeekToPositionMutation();
   return (
     <>

@@ -1,14 +1,13 @@
 import { createContext, useContext } from "react";
-import { PlaybackInfoData, SongQueue, SongMetadata } from "../models";
 
 interface MusicWebSocketContextType {
   error: string;
   message: string;
   botStatus: string | undefined;
-  playbackInfo: PlaybackInfoData | undefined;
-  songQueue: SongQueue | undefined;
-  sendMessage: (message: unknown) => void;
-  allSongsList: SongMetadata[];
+  // playbackInfo: PlaybackInfoData | undefined;
+  // songQueue: SongQueue | undefined;
+  // sendMessage: (message: unknown) => void;
+  // allSongsList: SongMetadata[];
 }
 
 export const MusicWebSocketContext = createContext<
