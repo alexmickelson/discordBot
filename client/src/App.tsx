@@ -8,13 +8,13 @@ export const App = () => {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 px-5 mx-auto w-full min-h-0 flex flex-col">
-        <div className="flex gap-3">
-          <div className="flex-1">
+        <div className="flex gap-5 justify-center">
+          <div className="min-w-200">
             <AddUrlToQueue />
           </div>
           <PlaybackStatus />
         </div>
-        <div className="flex gap-3 flex-1 min-h-0">
+        <div className="flex gap-3 flex-1 min-h-0 pt-3">
           <div className="flex-1 h-full">
             <AllSongs />
           </div>
@@ -24,9 +24,7 @@ export const App = () => {
         </div>
       </div>
       <div className="w-full z-50 bg-gray-900 bg-opacity-90 border-t border-slate-600">
-        <div className="max-w-4xl mx-auto w-full">
-          <CurrentSong />
-        </div>
+        <CurrentSong />
       </div>
     </div>
   );

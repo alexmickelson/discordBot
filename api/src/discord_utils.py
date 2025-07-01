@@ -7,6 +7,17 @@ async def connect_to_channel_by_name(channel_name: str, bot=None):
     for guild in bot.guilds:
         channel = discord.utils.get(guild.voice_channels, name=channel_name)
         if channel is not None:
+            voice_client = guild.voice_client
+            if voice_client and voice_client.is_connected():
+                if voice_client.channel == channel:
+                    print(f"Already connected to the requested channel: {channel}")
+                    set_voice_client(voice_client)
+                    return voice_client
+                else:
+                    print(f"Moving to channel: {channel}")
+                    await voice_client.move_to(channel)
+                    set_voice_client(voice_client)
+                    return voice_client
             voice_client = await channel.connect()
             set_voice_client(voice_client)
             print(f"Connected to channel: {channel}")

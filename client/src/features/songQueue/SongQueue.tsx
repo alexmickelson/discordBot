@@ -11,9 +11,7 @@ export const SongQueue = () => {
 
   return (
     <div className="overflow-y-auto h-full">
-      <h3 className="text-2xl font-bold mb-4 text-center text-violet-200">
-        Song Queue
-      </h3>
+      <div className="font-bold mb-2 text-center text-violet-200">Queue</div>
       <div className="bg-violet-950/40 rounded-lg shadow p-4">
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center py-8 text-violet-300">

@@ -28,7 +28,7 @@ async def stop_playback_and_disconnect():
         await voice_client.disconnect()
 
 
-async def stop_playback():
+def stop_playback():
     voice_client = get_voice_client()
     if voice_client and voice_client.is_playing():
         voice_client.stop()

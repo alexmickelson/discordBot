@@ -9,10 +9,10 @@ export const AllSongs = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 overflow-y-auto h-full">
-      <h3 className="text-2xl font-bold mb-4 text-center text-violet-200">
-        All Songs
-      </h3>
+    <div className="max-w-2xl mx-auto overflow-y-auto h-full">
+      <div className=" font-bold mb-2 text-center text-violet-200">
+        All 
+      </div>
       <div className="bg-violet-950/40 rounded-lg shadow p-4">
         {allSongsList.length === 0 && (
           <div className="text-center text-gray-400 py-6">

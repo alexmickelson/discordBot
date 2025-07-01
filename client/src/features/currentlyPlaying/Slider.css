@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 .slider {
-  @apply h-4 rounded outline-none transition-opacity duration-200 opacity-60 bg-violet-900 shadow-inner;
+  @apply rounded  transition-opacity duration-200  shadow-inner;
+  @apply opacity-60 bg-black border-violet-700;
+  @apply h-2 p-0;
 }
 .slider:hover {
   @apply opacity-100 bg-violet-800;

@@ -28,17 +28,15 @@ export const Slider: FC<SliderProps> = ({ min, max, current, onChange }) => {
   }, [current, isDragging]);
 
   return (
-    <div className="w-full">
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={localValue}
-        onChange={handleChange}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        className="slider w-full"
-      />
-    </div>
+    <input
+      type="range"
+      min={min}
+      max={max}
+      value={localValue}
+      onChange={handleChange}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      className="slider w-full"
+    />
   );
 };
