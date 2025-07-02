@@ -1,7 +1,5 @@
 import { FC, ReactNode, useEffect } from "react";
-import {
-  BotResponse,
-} from "../models";
+import { BotResponse } from "../models";
 import { useWebSocketConnection } from "./useWebSocket";
 import { MusicWebSocketContext } from "./useMusicWebSocketContexts";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,17 +13,14 @@ export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (!ws) return;
-    ws.onopen = () => {
-      ws.send(JSON.stringify({ action: "get_playback_info" }));
-      ws.send(JSON.stringify({ action: "get_all_songs" }));
-    };
+    ws.onopen = () => {};
     ws.onmessage = (event) => {
       const response: BotResponse = JSON.parse(event.data);
 
       if (
-        response.message_type === "PLAYBACK_INFORMATION" &&
         response.song_queue &&
-        response.playback_information && response.all_songs_list
+        response.playback_information &&
+        response.all_songs_list
       ) {
         queryClient.setQueryData(
           playbackKeys.playbackInfo,
@@ -42,10 +37,7 @@ export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
   }, [queryClient, ws]);
 
   return (
-    <MusicWebSocketContext.Provider
-      value={{
-      }}
-    >
+    <MusicWebSocketContext.Provider value={{}}>
       {children}
     </MusicWebSocketContext.Provider>
   );

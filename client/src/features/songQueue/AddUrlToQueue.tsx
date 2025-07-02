@@ -19,25 +19,31 @@ export const AddUrlToQueue = () => {
       <label htmlFor="url" className="text-gray-200 font-semibold text-lg">
         YouTube URL
       </label>
-      <input
-        id="url"
-        type="url"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="Paste a song URL..."
-        className={[""].join(" ")}
-        autoComplete="off"
-        required
-      />
-      {addToQueueMutation.isPending ? (
-        <div className="flex justify-center items-center h-10">
-          <Spinner />
+      <div className="flex gap-3">
+        <div className="flex-1">
+          <input
+            id="url"
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Paste a song URL..."
+            autoComplete="off"
+            className="w-full"
+            required
+          />
         </div>
-      ) : (
-        <button type="submit" className="">
-          Add to Queue
-        </button>
-      )}
+        <div>
+          {addToQueueMutation.isPending ? (
+            <div className="flex justify-center items-center h-10">
+              <Spinner />
+            </div>
+          ) : (
+            <button type="submit" className="btn">
+              Add to Queue
+            </button>
+          )}
+        </div>
+      </div>
     </form>
   );
 };
