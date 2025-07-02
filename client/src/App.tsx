@@ -1,5 +1,4 @@
 import { AllSongs } from "./features/allSongs/AllSongs";
-import { PlaybackStatus } from "./features/currentlyPlaying/PlaybackInfo";
 import { AddUrlToQueue } from "./features/songQueue/AddUrlToQueue";
 import { CurrentSong } from "./features/currentlyPlaying/CurrentSong";
 import { SongQueue } from "./features/songQueue/SongQueue";
@@ -12,7 +11,6 @@ export const App = () => {
           <div className="min-w-200">
             <AddUrlToQueue />
           </div>
-          <PlaybackStatus />
         </div>
         <div className="flex gap-3 flex-1 min-h-0 pt-3">
           <div className="flex-1 h-full">

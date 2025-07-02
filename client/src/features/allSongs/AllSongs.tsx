@@ -45,7 +45,7 @@ const SongListItem = ({ song }: { song: SongMetadata }) => {
 
 export const AllSongs = () => {
   const { data: allSongsList } = useGetAllSongsQuery();
-  console.log(allSongsList);
+  console.log("all songs list",allSongsList);
   return (
     <div className="max-w-2xl mx-auto overflow-y-auto h-full">
       <div className=" font-bold mb-2 text-center text-violet-200">All</div>

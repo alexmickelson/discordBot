@@ -1,9 +1,6 @@
 import { createContext, useContext } from "react";
 
 interface MusicWebSocketContextType {
-  error: string;
-  message: string;
-  botStatus: string | undefined;
   // playbackInfo: PlaybackInfoData | undefined;
   // songQueue: SongQueue | undefined;
   // sendMessage: (message: unknown) => void;
