@@ -11,7 +11,6 @@ from src.models import BotResponse, MessageType
 from fastapi.staticfiles import StaticFiles
 from src.mcp_server import discord_mcp
 from src.music.music_controls import MusicControls, get_music_controls
-from src.music.song_queue import get_status
 from src.playback_router import playback_router
 from src.discord_bot import bot
 
@@ -63,7 +62,7 @@ async def ws_message(data: Dict[str, Any]) -> BotResponse:
     if "action" not in data:
         return BotResponse(
             message_type=MessageType.ERROR,
-            status=get_status(),
+            status=controls.get_queue_status().status,
             error="Invalid request, action is required",
         )
     method = getattr(controls, data["action"], None)
@@ -76,13 +75,13 @@ async def ws_message(data: Dict[str, Any]) -> BotResponse:
         else:
             return BotResponse(
                 message_type=MessageType.ERROR,
-                status=get_status(),
+                status=controls.get_queue_status().status,
                 error="Handler did not return a BotResponse object.",
             )
     else:
         return BotResponse(
             message_type=MessageType.ERROR,
-            status=get_status(),
+            status=controls.get_queue_status().status,
             error=f"Unknown action: {data['action']}",
         )
 

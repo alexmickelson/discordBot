@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from src.music.my_voice_client import set_voice_client, stop_playback_and_disconnect
-from src.music.song_queue import add_url_to_queue, handle_new_song_on_queue, pause_song
+from src.music.song_queue import get_queue_state
 
 load_dotenv()
 
@@ -29,10 +29,10 @@ async def play(ctx: commands.Context, url: str):
 
     if ctx.voice_client is None:
         set_voice_client(await channel.connect())
-    add_url_to_queue(url)
+    get_queue_state().add_url_to_queue(url)
     print(f"added {url} to queue")
 
-    handle_new_song_on_queue()
+    get_queue_state().handle_new_song_on_queue()
 
 
 @bot.command(name="url")
@@ -50,4 +50,4 @@ async def stop(ctx: commands.Context):
 @bot.command(pass_context=True)
 async def pause(ctx: commands.Context):
     print("pausing playing")
-    pause_song()
+    get_queue_state().pause_song()
