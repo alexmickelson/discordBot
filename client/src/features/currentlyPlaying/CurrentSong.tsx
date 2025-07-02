@@ -1,6 +1,9 @@
 import { Slider } from "./Slider";
 import { Spinner } from "../../utils/Spinner";
-import { useSeekToPositionMutation, usePlaybackInfoQuery } from "../playbackHooks";
+import {
+  useSeekToPositionMutation,
+  usePlaybackInfoQuery,
+} from "../playbackHooks";
 
 export const CurrentSong = () => {
   const { data: playbackInfo } = usePlaybackInfoQuery();
@@ -20,14 +23,14 @@ export const CurrentSong = () => {
               </div>
             </div>
             <div className="flex-grow">
-                <Slider
-                  min={0}
-                  max={playbackInfo.duration}
-                  current={playbackInfo.current_position}
-                  onChange={(v) => {
-                    seekToPositionMutation.mutate(v);
-                  }}
-                />
+              <Slider
+                min={0}
+                max={playbackInfo.duration}
+                current={playbackInfo.current_position}
+                onChange={(v) => {
+                  seekToPositionMutation.mutate(v);
+                }}
+              />
             </div>
           </div>
         ) : (

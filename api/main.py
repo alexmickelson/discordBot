@@ -20,7 +20,10 @@ load_dotenv()
 
 @asynccontextmanager
 async def lifespan(app):
-    discord_task = asyncio.create_task(bot.start(os.getenv("DISCORD_SECRET")))
+    discord_secret = os.getenv("DISCORD_SECRET")
+    if not discord_secret:
+        raise RuntimeError("DISCORD_SECRET environment variable is not set.")
+    discord_task = asyncio.create_task(bot.start(discord_secret))
     mcp_task = asyncio.create_task(
         discord_mcp.run_async(transport="http", port=5678, host="0.0.0.0")
     )
@@ -67,7 +70,15 @@ async def ws_message(data: Dict[str, Any]) -> BotResponse:
     if callable(method):
         sig = inspect.signature(method)
         params = {k: data[k] for k in sig.parameters if k in data}
-        return method(**params)
+        result = method(**params)
+        if isinstance(result, BotResponse):
+            return result
+        else:
+            return BotResponse(
+                message_type=MessageType.ERROR,
+                status=get_status(),
+                error="Handler did not return a BotResponse object.",
+            )
     else:
         return BotResponse(
             message_type=MessageType.ERROR,

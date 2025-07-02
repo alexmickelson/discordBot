@@ -4,10 +4,10 @@ RUN apt-get update && apt-get install -y \
     git fish \
     ffmpeg \
     nodejs npm curl \
-    python3 python3-pip \
+    python3 python3-pip pipx \
     && npm install -g n \
     && n stable \
-    && npm install -g pnpm
+    && npm install -g pnpm pyright
 
 WORKDIR /app
 
@@ -18,10 +18,6 @@ RUN usermod -l developer ubuntu && \
 
 USER developer
 
-# Install uv as developer and ensure it's on PATH
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    echo 'set -Ux PATH $HOME/.local/bin $PATH' | fish
-
 COPY ./config.fish /home/developer/.config/fish/config.fish
 
-CMD ["tail", "-f", "/dev/null"]
+RUN pipx install uv

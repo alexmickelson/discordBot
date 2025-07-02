@@ -7,14 +7,13 @@ from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 from src.music.my_voice_client import stop_playback
 from src.music.song_queue import (
     add_existing_song_to_queue,
-    add_to_queue,
+    add_url_to_queue,
     change_playback_position,
     get_all_songs,
     get_playback_info,
     get_queue_status,
     get_status,
     handle_new_song_on_queue,
-    has_current_song,
     pause_song,
     play_current_song,
     set_queue_position,
@@ -53,7 +52,8 @@ class MusicControls:
     def get_playback_info(self) -> BotResponse:
         status = get_queue_status()
         all_songs = get_all_songs()
-        if not has_current_song():
+        info = get_playback_info()
+        if not info:
             return BotResponse(
                 message_type=MessageType.PLAYBACK_INFORMATION,
                 status=BotStatus.IDLE,
@@ -62,10 +62,9 @@ class MusicControls:
                 all_songs_list=all_songs,
             )
         else:
-            info = get_playback_info()
             return BotResponse(
                 message_type=MessageType.PLAYBACK_INFORMATION,
-                status=BotStatus.PLAYING if info else BotStatus.IDLE,
+                status=BotStatus.PLAYING,
                 playback_information=info,
                 song_queue=status,
                 all_songs_list=all_songs,
@@ -135,12 +134,21 @@ class MusicControls:
         new_query = urlencode({"v": v_param[0]})
         updated = urlunparse(parsed._replace(query=new_query))
         print("parsed url to be", updated)
-        add_to_queue(updated)
+        add_url_to_queue(updated)
         return BotResponse(
             message_type=MessageType.ADD_SONG_TO_QUEUE,
             status=get_status(),
             message="Song added to queue from URL",
             song_queue=get_queue_status(),
+        )
+
+    def get_queue_status(self):
+        status = get_queue_status()
+        return BotResponse(
+            message_type=MessageType.PLAYBACK_INFORMATION,
+            status=get_status(),
+            song_queue=status,
+            playback_information=get_playback_info(),
         )
 
 

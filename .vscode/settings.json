@@ -12,5 +12,7 @@
   ],
   "python.autoComplete.extraPaths": [
     "./api"
-  ]
+  ],
+  "python.languageServer": "Pylance",
+  "python.analysis.typeCheckingMode": "basic"
 }

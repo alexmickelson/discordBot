@@ -6,6 +6,7 @@ import { useWebSocketConnection } from "./useWebSocket";
 import { MusicWebSocketContext } from "./useMusicWebSocketContexts";
 import { useQueryClient } from "@tanstack/react-query";
 import { playbackKeys } from "../features/playbackHooks";
+import { useInfoTask } from "./useRefreshInfoTask";
 
 export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
   children,
@@ -54,6 +55,8 @@ export const MusicWebSocketProvider: FC<{ children: ReactNode }> = ({
     ws.onerror = () => setError("WebSocket error occurred.");
     ws.onclose = () => {};
   }, [queryClient, ws]);
+
+  useInfoTask();
 
   return (
     <MusicWebSocketContext.Provider
