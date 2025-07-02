@@ -1,5 +1,4 @@
 import { Slider } from "./Slider";
-import { Spinner } from "../../utils/Spinner";
 import {
   useSeekToPositionMutation,
   usePlaybackInfoQuery,
@@ -8,6 +7,7 @@ import {
 export const CurrentSong = () => {
   const { data: playbackInfo } = usePlaybackInfoQuery();
   const seekToPositionMutation = useSeekToPositionMutation();
+
   return (
     <>
       <div className="bg-gradient-to-r from-gray-900/30 via-violet-950/30 to-violet-950 bg-opacity-70 flex flex-col min-h-0 w-full">
@@ -35,7 +35,6 @@ export const CurrentSong = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full p-2">
-            <Spinner />
             <div className="text-gray-400">No song is currently playing</div>
           </div>
         )}

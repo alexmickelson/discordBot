@@ -28,7 +28,7 @@ async def api_play_song_by_index(position: int):
 async def api_get_playback_info():
     if not is_bot_connected():
         await connect_to_channel_by_name("Absolute Sophistication")
-    return controls.get_playback_info()
+    return controls.get_playback_info().playback_information
 
 
 @playback_router.get("/get_all_songs")
@@ -69,9 +69,10 @@ async def api_add_to_queue(url: str):
 @playback_router.get("/get_song_thumbnail")
 def api_get_song_thumbnail(thumbnail: str):
     print(f"Requested thumbnail: {thumbnail}")
-    if not os.path.isfile(thumbnail):
-        return {"error": "Thumbnail not found."}
-    return FileResponse(thumbnail)
+    path = os.path.join(DATA_PATH, thumbnail)
+    if not os.path.isfile(path):
+        raise FileNotFoundError("Thumbnail not found: " + path)
+    return FileResponse(path)
 
 
 @playback_router.get("/get_song_queue")

@@ -18,6 +18,8 @@ RUN usermod -l developer ubuntu && \
 
 USER developer
 
+RUN fish -c "echo Fish shell initialized"
+
 COPY ./config.fish /home/developer/.config/fish/config.fish
 
 RUN pipx install uv
