@@ -23,3 +23,5 @@ RUN fish -c "echo Fish shell initialized"
 COPY ./config.fish /home/developer/.config/fish/config.fish
 
 RUN pipx install uv
+
+ENV PATH="/home/developer/.local/bin:${PATH}"
