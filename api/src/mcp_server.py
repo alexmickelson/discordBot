@@ -34,6 +34,11 @@ async def get_all_songs():
     await ensure_bot_connected()
     return controls.get_all_songs()
 
+@discord_mcp.tool
+async def get_song_queue():
+    await ensure_bot_connected()
+    return controls.get_queue_status()
+
 
 @discord_mcp.tool
 async def add_song_to_queue(filename: str):
